@@ -3,7 +3,7 @@ import pLineChart from "./pLineChart.vue";
 import StockInfo from "./StockInfo.vue";
 </script>
 
-<template>
+<template >
   <nav class="navbar navbar-light bg-light p-3">
     <div
       class="d-flex p-0 col-12 col-md-1 col-lg-1 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between"
@@ -58,7 +58,7 @@ import StockInfo from "./StockInfo.vue";
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Messages</a></li>
+          <!-- <li><a class="dropdown-item" href="#">Messages</a></li> -->
           <li><a class="dropdown-item" href="#">Sign out</a></li>
         </ul>
       </div>
@@ -84,7 +84,7 @@ import StockInfo from "./StockInfo.vue";
               <h5 class="card-title">D#####</h5>
             </div>
           </div> -->
-          <StockInfo />
+          <StockInfo ref="stockView" :searched_symbol="what_to_search"/>
         </h1>
       </main>
     </div>
@@ -95,17 +95,14 @@ import StockInfo from "./StockInfo.vue";
 export default {
   data() {
     return {
+      what_to_search: "GME",
       search: "",
     };
   },
   methods: {
     async submit() {
-      // const response = await AuthenticationService.register({
-      //   username: this.username,
-      //   password: this.password,
-      // });
-      // console.log(response.data);
-      console.log("GGG");
+      console.log("Search for " + this.search + " submited");
+      this.what_to_search = this.search;
     },
   },
 };

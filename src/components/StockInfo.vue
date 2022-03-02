@@ -10,22 +10,35 @@ export default {
   props: { searched_symbol: String },
   data() {
     return {
-      searched_symbol: "GME",
       everyThingIsReady: false,
     };
   },
   async setup() {},
   async mounted() {
     // const data = await
-    const result = await InfoService.post("MRNA");
+    // function getData(symbol){
+    const result = await InfoService.post(this.searched_symbol);
     console.log(result.data.message.symbol);
     this.NAME = result.data.message.longName;
     this.SYMBOL = result.data.message.symbol;
-    const data = await HistoricalService.post("MRNA");
+    const data = await HistoricalService.post(this.SYMBOL);
     console.log(data.data.message);
     this.passedData = data.data.message;
     this.everyThingIsReady = true;
-  },
+    },
+    watch: {
+       async searched_symbol(){
+        console.log("Being called " + this.searched_symbol)
+        this.everyThingIsReady = false;
+        const result = await InfoService.post(this.searched_symbol);
+        this.NAME = result.data.message.longName;
+        this.SYMBOL = result.data.message.symbol;
+        const data = await HistoricalService.post(this.SYMBOL);
+        this.passedData = data.data.message;
+        this.everyThingIsReady = true;
+        this.$forceUpdate();
+      }
+    }
 };
 </script>
 
