@@ -61,3 +61,13 @@ export default {
     </div>
   </div>
 </template>
+
+/<style scoped>
+
+.card{
+  /* background-color: lightgray; */
+  padding-bottom: 10px;  
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+
+</style>
