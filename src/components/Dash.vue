@@ -60,6 +60,8 @@ import StockInfo from "./StockInfo.vue";
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <!-- <li><a class="dropdown-item" href="#">Messages</a></li> -->
           <li><a class="dropdown-item" href="#">Sign out</a></li>
+
+          <li><a class="dropdown-item" href="/register">Sign in</a></li>
         </ul>
       </div>
     </div>

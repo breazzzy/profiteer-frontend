@@ -20,6 +20,8 @@
     />
     <button @click="register">Register</button>
     </div>
+
+    
     
   </div>
 </body>
@@ -69,6 +71,8 @@ body{
   /* padding-bottom: 10px;   */
   box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
 }
+
+
 .card-header{
   
   background-color: lightgray;

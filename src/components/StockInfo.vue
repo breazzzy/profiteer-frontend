@@ -21,8 +21,11 @@ export default {
     console.log(result.data.message.symbol);
     this.NAME = result.data.message.longName;
     this.SYMBOL = result.data.message.symbol;
+    this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
     const data = await HistoricalService.post(this.SYMBOL);
     console.log(data.data.message);
+    this.OPEN = data.data.message[data.data.message.length - 1].open;
+    this.VOLUME = data.data.message[data.data.message.length - 1].volume;
     this.passedData = data.data.message;
     this.everyThingIsReady = true;
     },
@@ -33,7 +36,11 @@ export default {
         const result = await InfoService.post(this.searched_symbol);
         this.NAME = result.data.message.longName;
         this.SYMBOL = result.data.message.symbol;
+        this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
         const data = await HistoricalService.post(this.SYMBOL);
+        this.OPEN = data.data.message[data.data.message.length - 1].open;
+        
+        this.VOLUME = data.data.message[data.data.message.length - 1].volume;
         this.passedData = data.data.message;
         this.everyThingIsReady = true;
         this.$forceUpdate();
@@ -50,7 +57,22 @@ export default {
         ><pLineChart :passedData="passedData"
       /></template>
 
-      <h5 class="card-title">Place holder for stats</h5>
+      <h5 class="card-title"><p>Stats</p>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              52wk High: {{FIVETWOWEEK_HIGH}}
+            </div>
+            <div class="col">
+              Open: {{OPEN}}
+            </div>
+            
+            <div class="col">
+              Volume: {{VOLUME}}
+            </div>
+          </div>
+        </div>
+      </h5>
     </div>
   </div>
   <div class="card">
@@ -69,5 +91,28 @@ export default {
   padding-bottom: 10px;  
   box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
 }
+
+.card-title{
+  /* background-color: lightgray; */
+  margin-top: 2%;
+  /* outline: 2px solid rgba(0, 0, 0, 0.1); */
+  /* box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1); */
+}
+
+.container{
+  font-size: 14px;
+  /* box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1); */
+}
+
+.row{
+  /* background-color: red; */
+  outline: 2px dotted rgba(0,0,0,.25);
+}
+
+.col{
+  /* background-color: red; */
+  outline: 1px dotted rgba(0,0,0,.25);
+}
+
 
 </style>
