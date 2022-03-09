@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <h1>Register</h1>
+<body>
+  <div class="card">
+    <div class="card-header">
+      
+      <h1>Register</h1>
+    </div>
+    <div class="card-body">
     <input
       type="text"
       v-model="username"
@@ -14,7 +19,10 @@
       placeholder="Password"
     />
     <button @click="register">Register</button>
+    </div>
+    
   </div>
+</body>
 </template>
 
 <script>
@@ -39,4 +47,33 @@ export default {
 };
 </script>
 
-<style scoped></style>
+
+<style scoped>
+body{
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.card{
+  
+
+  margin: 0 auto;
+  /* margin-top: ; */
+  width: 40%;
+  /* height: 100%; */
+  
+  /* padding-bottom: 10px;   */
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+.card-header{
+  
+  background-color: lightgray;
+}
+.card-body{
+  display: inline;
+}
+</style>
