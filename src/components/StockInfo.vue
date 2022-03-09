@@ -22,6 +22,9 @@ export default {
     this.NAME = result.data.message.longName;
     this.SYMBOL = result.data.message.symbol;
     this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
+    this.MARKET_CAP = result.data.message.marketCap
+    this.AVERAGE_VOLUME = result.data.message.averageDailyVolume3Month;
+    this.ANALYST_RATING = result.data.message.averageAnalystRating;
     const data = await HistoricalService.post(this.SYMBOL);
     console.log(data.data.message);
     this.OPEN = data.data.message[data.data.message.length - 1].open;
@@ -37,6 +40,9 @@ export default {
         this.NAME = result.data.message.longName;
         this.SYMBOL = result.data.message.symbol;
         this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
+        this.MARKET_CAP = result.data.message.marketCap
+        this.AVERAGE_VOLUME = result.data.message.averageDailyVolume3Month;
+        this.ANALYST_RATING = result.data.message.averageAnalystRating;
         const data = await HistoricalService.post(this.SYMBOL);
         this.OPEN = data.data.message[data.data.message.length - 1].open;
         
@@ -69,6 +75,19 @@ export default {
             
             <div class="col">
               Volume: {{VOLUME}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              Market Cap: {{MARKET_CAP}}
+            </div>
+            <div class="col">
+              Analyst Rating: {{ANALYST_RATING}}<!--averageAnalystRating-->
+            </div>
+            
+            <div class="col">             
+              Average Volume: {{AVERAGE_VOLUME}}
             </div>
           </div>
         </div>

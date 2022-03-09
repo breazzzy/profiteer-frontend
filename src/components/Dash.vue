@@ -4,12 +4,13 @@ import StockInfo from "./StockInfo.vue";
 </script>
 
 <template >
-  <nav class="navbar navbar-light bg-light p-3">
+<!-- boostrap -->
+  <nav class="navbar navbar-light bg-light p-3" style="background-color: #e3f2fd;">
     <div
       class="d-flex p-0 col-12 col-md-1 col-lg-1 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between"
     >
       <a class="navbar-brand" href="#"> profiteer </a>
-      <button
+      <!-- <button
         class="navbar-toggler d-md-none collapsed mb-3"
         type="button"
         data-toggle="collapse"
@@ -19,7 +20,7 @@ import StockInfo from "./StockInfo.vue";
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> -->
     </div>
     <div class="col-12 col-md-4 col-lg-2">
       <input
@@ -61,7 +62,7 @@ import StockInfo from "./StockInfo.vue";
           <!-- <li><a class="dropdown-item" href="#">Messages</a></li> -->
           <li><a class="dropdown-item" href="#">Sign out</a></li>
 
-          <li><a class="dropdown-item" href="/register">Sign in</a></li>
+          <li><a class="dropdown-item" href="/register">Register</a></li>
         </ul>
       </div>
     </div>
@@ -111,6 +112,7 @@ export default {
 </script>
 
 <style>
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -126,6 +128,8 @@ export default {
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
+
+
 @media (min-width: 767.98px) {
   .navbar {
     top: 0;
@@ -134,11 +138,4 @@ export default {
   }
 }
 
-.sidebar .nav-link {
-  color: #333;
-}
-
-.sidebar .nav-link.active {
-  color: #0d6efd;
-}
 </style>
