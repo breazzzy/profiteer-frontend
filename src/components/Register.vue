@@ -1,30 +1,26 @@
 <template>
-<body>
-  <div class="card">
-    <div class="card-header">
-      
-      <h1>Register</h1>
+  <body>
+    <div class="card">
+      <div class="card-header">
+        <h1>Register</h1>
+      </div>
+      <div class="card-body">
+        <input
+          type="text"
+          v-model="username"
+          name="username"
+          placeholder="Username"
+        />
+        <input
+          type="text"
+          v-model="password"
+          name="password"
+          placeholder="Password"
+        />
+        <button @click="register">Register</button>
+      </div>
     </div>
-    <div class="card-body">
-    <input
-      type="text"
-      v-model="username"
-      name="username"
-      placeholder="Username"
-    />
-    <input
-      type="text"
-      v-model="password"
-      name="password"
-      placeholder="Password"
-    />
-    <button @click="register">Register</button>
-    </div>
-
-    
-    
-  </div>
-</body>
+  </body>
 </template>
 
 <script>
@@ -49,9 +45,8 @@ export default {
 };
 </script>
 
-
 <style scoped>
-body{
+body {
   background-color: whitesmoke;
   display: flex;
   justify-content: center;
@@ -60,24 +55,20 @@ body{
   min-height: 100vh;
 }
 
-.card{
-  
-
+.card {
   margin: 0 auto;
   /* margin-top: ; */
   width: 40%;
   /* height: 100%; */
-  
+
   /* padding-bottom: 10px;   */
   box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
 }
 
-
-.card-header{
-  
+.card-header {
   background-color: lightgray;
 }
-.card-body{
+.card-body {
   display: inline;
 }
 </style>
