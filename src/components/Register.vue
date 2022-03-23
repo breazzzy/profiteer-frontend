@@ -18,6 +18,7 @@
           placeholder="Password"
         />
         <button @click="register">Register</button>
+        <button @click="login">Login</button>
       </div>
     </div>
   </body>
