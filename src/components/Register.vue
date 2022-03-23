@@ -46,6 +46,7 @@ export default {
         this.$router.push("/")
       }else{
         console.log("Wrong Password");
+        alert("Wrong Password");
       }
     },
     async register() {
