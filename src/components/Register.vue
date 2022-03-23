@@ -26,6 +26,7 @@
 
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
+import LoginService from "@/services/LoginService";
 // import { defineComponent } from "@vue/composition-api";
 export default {
   data() {
@@ -35,6 +36,13 @@ export default {
     };
   },
   methods: {
+    async login() {
+      const response = await LoginService.login({
+        username: this.username,
+        password: this.password,
+      })
+      console.log(response);
+    },
     async register() {
       const response = await AuthenticationService.register({
         username: this.username,
