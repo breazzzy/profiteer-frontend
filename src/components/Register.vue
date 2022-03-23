@@ -41,7 +41,12 @@ export default {
         username: this.username,
         password: this.password,
       })
-      console.log(response);
+      console.log(response.data.message);
+      if(response.data.success == true){
+        this.$router.push("/")
+      }else{
+        console.log("Wrong Password");
+      }
     },
     async register() {
       const response = await AuthenticationService.register({
