@@ -12,7 +12,7 @@
           placeholder="Username"
         />
         <input
-          type="text"
+          type="password"
           v-model="password"
           name="password"
           placeholder="Password"
@@ -26,7 +26,7 @@
 
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
-import LoginService from "@/services/LoginService";
+// import LoginService from "@/services/LoginService";
 // import { defineComponent } from "@vue/composition-api";
 export default {
   data() {
@@ -37,16 +37,16 @@ export default {
   },
   methods: {
     async login() {
-      const response = await LoginService.login({
+      const response = await AuthenticationService.login({
         username: this.username,
         password: this.password,
-      })
+      });
       console.log(response.data.message);
-      if(response.data.success == true){
-        this.$router.push("/")
-      }else{
+      if (!response.data.user) {
         console.log("Wrong Password");
         alert("Wrong Password");
+      } else {
+        this.$router.push("/");
       }
     },
     async register() {
