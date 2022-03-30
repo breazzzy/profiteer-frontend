@@ -2,6 +2,9 @@
 import pLineChart from "./pLineChart.vue";
 import InfoService from "@/services/InfoService.js";
 import HistoricalService from "@/services/HistoricalService.js";
+import BuySellService from "@/services/BuySellService.js";
+import { UserStore } from "@/stores/UserStore";
+const store = UserStore();
 </script>
 
 <script>
@@ -12,6 +15,20 @@ export default {
     return {
       everyThingIsReady: false,
     };
+  },
+  methods: {
+    async addToWatch() {
+      try {
+        const store = UserStore();
+        const res = await BuySellService.addToWatch({
+          username: store.getUsername,
+          stockTicker: this.SYMBOL,
+        });
+        console.log(res);
+      } catch (error) {
+        alert(error);
+      }
+    },
   },
   async setup() {},
   async mounted() {
@@ -72,9 +89,19 @@ export default {
       <div class="col-9">
         <b>{{ SYMBOL }}: </b>{{ CURRENT_PRICE }}
       </div>
-      <button class="btn btn-danger btn-sm col-1">Buy</button>
-      <button class="btn btn-success btn-sm col-1">Sell</button>
-      <button class="btn btn-warning btn-sm col-1">Watch</button>
+      <button v-if="store.loggedin" class="btn btn-danger btn-sm col-1">
+        Buy
+      </button>
+      <button v-if="store.loggedin" class="btn btn-success btn-sm col-1">
+        Sell
+      </button>
+      <button
+        v-if="store.loggedin"
+        class="btn btn-warning btn-sm col-1"
+        @click="addToWatch()"
+      >
+        Watch
+      </button>
     </h5>
     <div class="card-body">
       <template v-if="everyThingIsReady"
@@ -113,7 +140,6 @@ export default {
   </div>
 </template>
 
-/
 <style scoped>
 .card {
   /* background-color: lightgray; */

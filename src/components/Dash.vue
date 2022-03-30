@@ -1,7 +1,9 @@
 <script setup>
 import pLineChart from "./pLineChart.vue";
 import StockInfo from "./StockInfo.vue";
+import BuySellService from "@/services/BuySellService.js";
 import { UserStore } from "@/stores/UserStore";
+import Sidebar from "./Sidebar.vue";
 const store = UserStore();
 </script>
 
@@ -36,14 +38,20 @@ const store = UserStore();
         aria-label="Search"
       />
     </div>
-    <button class="btn btn-info" @click="submit"><i class="bi bi-search"> Search</i></button>
+    <button class="btn btn-info" @click="submit">
+      <i class="bi bi-search"> Search</i>
+    </button>
     <div
       class="col-12 col-md-5 col-lg-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0"
     >
       <div class="mr-3 mt-1">
-        <a class="btn btn-outline-danger" href="https://github.com/breazzzy/profiteer-frontend"><i class="bi bi-github"></i>Github</a>
+        <a
+          class="btn btn-outline-danger"
+          href="https://github.com/breazzzy/profiteer-frontend"
+          ><i class="bi bi-github"></i>Github</a
+        >
       </div>
-      
+
       <div class="dropdown">
         <button
           class="btn btn-dark dropdown-toggle"
@@ -55,13 +63,23 @@ const store = UserStore();
           <i class="bi bi-person-circle"></i> Account &nbsp;
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Settings</a></li>
+          <li>
+            <a class="dropdown-item" href="#">
+              <i class="bi bi-gear-wide-connected"></i> Settings</a
+            >
+          </li>
           <!-- <li><a class="dropdown-item" href="#">Messages</a></li> -->
           <li>
-            <a class="dropdown-item" @click="signout" href="#">Sign out</a>
+            <a class="dropdown-item" @click="signout" href="#"
+              ><i class="bi bi-box-arrow-left"></i> Sign out</a
+            >
           </li>
 
-          <li><a class="dropdown-item" href="/register">Login/Register</a></li>
+          <li>
+            <a class="dropdown-item" href="/register"
+              ><i class="bi bi-box-arrow-in-right"></i> Login/Register</a
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -69,19 +87,10 @@ const store = UserStore();
   <!-- Dashboard area -->
   <div class="container-fluid">
     <div class="row">
-      <nav
-        id="sidebar"
-        class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-      >
-        <p v-if="store.loggedin">
-          <b>{{ store.getUsername }}</b>
-          <p>Data</p>
-        </p>
-        <!-- sidebar content -->
-      </nav>
       <!-- Stock Info -->
       <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
         <h1 class="h2">
+          <Sidebar />
           <!-- <div class="card">
             <h5 class="card-header">CHART</h5>
             <div class="card-body">
@@ -102,6 +111,7 @@ export default {
     return {
       what_to_search: "GME",
       search: "",
+      watchStocks: [],
     };
   },
   methods: {

@@ -4,22 +4,31 @@
       <div class="card-header">
         <h1>Login/Register</h1>
       </div>
-      <div class="card-body">
-        <input
-          type="text"
-          v-model="username"
-          name="username"
-          placeholder="Username"
-        />
-        <input
-          type="password"
-          v-model="password"
-          name="password"
-          placeholder="Password"
-        />
-        <button @click="register">Register</button>
-        <button @click="login">Login</button>
-      </div>
+      <form>
+        <div class="form-group">
+          <label for="usernameinput">Username</label>
+          <input
+            type="username"
+            class="form-control"
+            v-model="username"
+            id="usernameinput"
+            placeholder="Username"
+          />
+        </div>
+        <div class="form-group">
+          <label for="passwordInput">Password</label>
+          <input
+            type="username"
+            class="form-control"
+            v-model="password"
+            id="passwordInput"
+            placeholder="Password"
+          />
+        </div>
+      </form>
+
+      <button class="btn btn-danger" @click="register">Register</button>
+      <button class="btn btn-primary" @click="login">Login</button>
     </div>
   </body>
 </template>
