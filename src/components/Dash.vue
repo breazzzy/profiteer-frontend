@@ -36,7 +36,7 @@ const store = UserStore();
         aria-label="Search"
       />
     </div>
-    <button @click="submit"></button>
+    <button class="btn btn-info" @click="submit"><i class="bi bi-search"> Search</i></button>
     <div
       class="col-12 col-md-5 col-lg-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0"
     >
@@ -52,7 +52,7 @@ const store = UserStore();
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Account &nbsp;
+          <i class="bi bi-person-circle"></i> Account &nbsp;
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><a class="dropdown-item" href="#">Settings</a></li>

@@ -44,10 +44,7 @@ export default {
       const result = await InfoService.post(this.searched_symbol);
       this.NAME = result.data.message.longName;
       // this.CURRENT_PRICE = result.data.message.currentPrice;
-      this.CURRENT_PRICE =
-        Math.round(
-          data.data.message[data.data.message.length - 1].adjclose * 100
-        ) / 100;
+
       console.log(result.data.message);
       this.SYMBOL = result.data.message.symbol;
       this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
@@ -56,7 +53,10 @@ export default {
       this.ANALYST_RATING = result.data.message.averageAnalystRating;
       const data = await HistoricalService.post(this.SYMBOL);
       this.OPEN = data.data.message[data.data.message.length - 1].open;
-
+      this.CURRENT_PRICE =
+        Math.round(
+          data.data.message[data.data.message.length - 1].adjclose * 100
+        ) / 100;
       this.VOLUME = data.data.message[data.data.message.length - 1].volume;
       this.passedData = data.data.message;
       this.everyThingIsReady = true;
