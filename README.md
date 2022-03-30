@@ -10,12 +10,18 @@
 
 See [Vite Configuration Reference](https://vitejs.dev/config/). -->
 
+## About
+
+Simple website made to view stock information, made as a school project.
+
+Backend -> *https://github.com/breazzzy/profiteer-backend*
+
 ## Project Setup
 
 ```sh
 npm install
 ```
-tes
+
 ### Compile and Hot-Reload for Development
 
 ```sh
