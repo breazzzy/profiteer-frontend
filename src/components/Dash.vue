@@ -1,11 +1,16 @@
 <script setup>
 import pLineChart from "./pLineChart.vue";
 import StockInfo from "./StockInfo.vue";
+import { UserStore } from "@/stores/UserStore";
+const store = UserStore();
 </script>
 
-<template >
-<!-- boostrap -->
-  <nav class="navbar navbar-light bg-light p-3" style="background-color: #e3f2fd;">
+<template>
+  <!-- boostrap -->
+  <nav
+    class="navbar navbar-light bg-light p-3"
+    style="background-color: #e3f2fd"
+  >
     <div
       class="d-flex p-0 col-12 col-md-1 col-lg-1 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between"
     >
@@ -35,34 +40,28 @@ import StockInfo from "./StockInfo.vue";
     <div
       class="col-12 col-md-5 col-lg-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0"
     >
-      <!-- <div class="mr-3 mt-1">
-        <a
-          class="github-button"
-          href="https://github.com/themesberg/simple-bootstrap-5-dashboard"
-          data-color-scheme="no-preference: dark; light: light; dark: light;"
-          data-icon="octicon-star"
-          data-size="large"
-          data-show-count="true"
-          aria-label="Star /themesberg/simple-bootstrap-5-dashboard"
-          >Star</a
-        >
-      </div> -->
+      <div class="mr-3 mt-1">
+        <a class="btn btn-outline-danger" href="https://github.com/breazzzy/profiteer-frontend"><i class="bi bi-github"></i>Github</a>
+      </div>
+      
       <div class="dropdown">
         <button
-          class="btn btn-secondary dropdown-toggle"
+          class="btn btn-dark dropdown-toggle"
           type="button"
           id="dropdownMenuButton"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Account
+          Account &nbsp;
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <!-- <li><a class="dropdown-item" href="#">Messages</a></li> -->
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li>
+            <a class="dropdown-item" @click="signout" href="#">Sign out</a>
+          </li>
 
-          <li><a class="dropdown-item" href="/register">Register</a></li>
+          <li><a class="dropdown-item" href="/register">Login/Register</a></li>
         </ul>
       </div>
     </div>
@@ -74,7 +73,10 @@ import StockInfo from "./StockInfo.vue";
         id="sidebar"
         class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
       >
-        <p>Sidebar</p>
+        <p v-if="store.loggedin">
+          <b>{{ store.getUsername }}</b>
+          <p>Data</p>
+        </p>
         <!-- sidebar content -->
       </nav>
       <!-- Stock Info -->
@@ -87,7 +89,7 @@ import StockInfo from "./StockInfo.vue";
               <h5 class="card-title">D#####</h5>
             </div>
           </div> -->
-          <StockInfo ref="stockView" :searched_symbol="what_to_search"/>
+          <StockInfo ref="stockView" :searched_symbol="what_to_search" />
         </h1>
       </main>
     </div>
@@ -107,12 +109,18 @@ export default {
       console.log("Search for " + this.search + " submited");
       this.what_to_search = this.search;
     },
+    async signout() {
+      const store = UserStore();
+      console.log(store);
+      store.setLoggedin(false);
+      store.setUsername(null);
+    },
   },
 };
 </script>
 
 <style>
-
+@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
 .sidebar {
   position: fixed;
   top: 0;
@@ -128,8 +136,6 @@ export default {
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
-
-
 @media (min-width: 767.98px) {
   .navbar {
     top: 0;
@@ -137,5 +143,4 @@ export default {
     z-index: 999;
   }
 }
-
 </style>

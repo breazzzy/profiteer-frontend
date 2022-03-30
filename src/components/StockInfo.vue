@@ -68,8 +68,13 @@ export default {
 
 <template>
   <div class="card">
-    <h5 class="card-header">
-      <b>{{ SYMBOL }}:</b> {{ CURRENT_PRICE }}
+    <h5 class="card-header d-flex p-0">
+      <div class="col-9">
+        <b>{{ SYMBOL }}: </b>{{ CURRENT_PRICE }}
+      </div>
+      <button class="btn btn-danger btn-sm col-1">Buy</button>
+      <button class="btn btn-success btn-sm col-1">Sell</button>
+      <button class="btn btn-warning btn-sm col-1">Watch</button>
     </h5>
     <div class="card-body">
       <template v-if="everyThingIsReady"

@@ -2,7 +2,7 @@
   <body>
     <div class="card">
       <div class="card-header">
-        <h1>Register</h1>
+        <h1>Login/Register</h1>
       </div>
       <div class="card-body">
         <input
@@ -26,6 +26,7 @@
 
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
+import { UserStore } from "@/stores/UserStore";
 // import LoginService from "@/services/LoginService";
 // import { defineComponent } from "@vue/composition-api";
 export default {
@@ -37,24 +38,37 @@ export default {
   },
   methods: {
     async login() {
-      const response = await AuthenticationService.login({
-        username: this.username,
-        password: this.password,
-      });
-      console.log(response.data.message);
-      if (!response.data.user) {
-        console.log("Wrong Password");
-        alert("Wrong Password");
-      } else {
+      try {
+        const response = await AuthenticationService.login({
+          username: this.username,
+          password: this.password,
+        });
+        console.log(response.data.message);
         this.$router.push("/");
+        const store = UserStore();
+        // console.log("User store " + store.userId);
+        store.setUsername(response.data.user.username);
+        store.setLoggedin(true);
+      } catch (error) {
+        alert(error.response.data.error);
       }
+
+      // if (!response.data.user) {
+      //   console.log("Wrong Password");
+      //   alert("Wrong Password");
+      // } else {
+      // }
     },
     async register() {
-      const response = await AuthenticationService.register({
-        username: this.username,
-        password: this.password,
-      });
-      console.log(response.data);
+      try {
+        const response = await AuthenticationService.register({
+          username: this.username,
+          password: this.password,
+        });
+        console.log(response.data);
+      } catch (error) {
+        alert(error.response.data.error);
+      }
     },
   },
 };
