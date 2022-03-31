@@ -20,11 +20,26 @@ export default {
     async addToWatch() {
       try {
         const store = UserStore();
-        store.read();
         const res = await BuySellService.addToWatch({
           username: store.getUsername,
           stockTicker: this.SYMBOL,
         });
+        store.read();
+      } catch (error) {
+        alert(error);
+      }
+    },
+    async addToBuy() {
+      try {
+        const store = UserStore();
+        const res = await BuySellService.addToBuy({
+          stockTicker: this.SYMBOL,
+          username: store.getUsername,
+          priceAtBuy: this.CURRENT_PRICE,
+          amountBought: 20.0,
+        });
+        console.log("Finished Buy");
+        store.read();
       } catch (error) {
         alert(error);
       }
@@ -59,7 +74,7 @@ export default {
   },
   watch: {
     async searched_symbol() {
-      this.readData();
+      await this.readData();
       this.$forceUpdate();
     },
   },
@@ -72,7 +87,11 @@ export default {
       <div class="col-9">
         <b>{{ SYMBOL }}: </b>{{ CURRENT_PRICE }}
       </div>
-      <button v-if="store.loggedin" class="btn btn-danger btn-sm col-1">
+      <button
+        v-if="store.loggedin"
+        class="btn btn-danger btn-sm col-1"
+        @click="addToBuy()"
+      >
         Buy
       </button>
       <button v-if="store.loggedin" class="btn btn-success btn-sm col-1">

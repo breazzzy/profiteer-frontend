@@ -17,8 +17,17 @@ const store = UserStore();
       </p>
       <u>Watched Stocks</u>
       <div v-for="stock in watchStocks" :key="stock.id">
-        {{ stock.stockTicker }}
+        <a v-on:click="set_search_symbol(stock.stockTicker)">{{
+          stock.stockTicker
+        }}</a>
       </div>
+      <p></p>
+      <u>Current Holdings</u>
+      <div v-for="stock in currentHoldings" :key="stock.id">
+        {{ stock.amountBought }} Shares of {{ stock.stockTicker }} @
+        {{ stock.priceAtBuy }}
+      </div>
+      <button @click="reread"></button>
     </div>
     <!-- sidebar content -->
   </nav>
@@ -31,6 +40,7 @@ export default {
   data() {
     return {};
   },
+  props: { searched_symbol: String },
   computed: {
     //The advatage of using a computed prop instead of just sticking it in "data()" or using a method
     //is one that its a function and "data" cant have functions but most important is that methods arent reactive
@@ -41,10 +51,28 @@ export default {
       const store = UserStore();
       return store.getWatchedData;
     },
+    currentHoldings() {
+      const store = UserStore();
+      return store.getBuyData;
+    },
   },
   watch: {
     watchStocks() {
       console.log("Watch Stocks have changed");
+    },
+    currentHoldings() {
+      console.log("Current Holdings updated");
+    },
+  },
+  methods: {
+    reread() {
+      console.log(this.searched_symbol);
+      const store = UserStore();
+      store.read();
+    },
+    set_search_symbol(sym) {
+      console.log(sym);
+      this.$emit("updateSearchedSymbol", sym);
     },
   },
   async mounted() {
@@ -64,6 +92,7 @@ export default {
   /* position: fixed; */
   text-align: center;
   font-size: 16px;
+  overflow: scroll;
 }
 
 @media (min-width: 767.98px) {

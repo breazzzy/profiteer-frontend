@@ -80,7 +80,10 @@ const store = UserStore();
       <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
         <h1 class="h2">
           <!-- watch_data is a prop that passes in the current logged in users watched stocks -->
-          <Sidebar />
+          <Sidebar
+            :searched_symbol="what_to_search"
+            @updateSearchedSymbol="what_to_search = $event"
+          />
           <StockInfo ref="stockView" :searched_symbol="what_to_search" />
         </h1>
       </main>
