@@ -29,15 +29,29 @@ import { UserStore } from "@/stores/UserStore";
 
 export default {
   data() {
-    return {
-      watchStocks: [{ stockTicker: "GME" }],
-    };
+    return {};
+  },
+  computed: {
+    //The advatage of using a computed prop instead of just sticking it in "data()" or using a method
+    //is one that its a function and "data" cant have functions but most important is that methods arent reactive
+    //This watchStocks() function will be called everytime store.getWatchedData is changed
+    //This allows me to update the information on the sidebar everytime the user adds a new stock to their watch list
+    //This prop reads the current users watch data
+    watchStocks() {
+      const store = UserStore();
+      return store.getWatchedData;
+    },
+  },
+  watch: {
+    watchStocks() {
+      console.log("Watch Stocks have changed");
+    },
   },
   async mounted() {
-    const store = UserStore();
-    const res = await BuySellService.getWatches(store.getUsername);
-    console.log(res.data);
-    this.watchStocks = res.data;
+    // const store = UserStore();
+    // const res = await BuySellService.getWatches(store.getUsername);
+    // console.log(res.data);
+    // this.watchStocks = store.getWatchedData();
     // console.log("b");
   },
   setup() {},

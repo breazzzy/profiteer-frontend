@@ -17,17 +17,6 @@ const store = UserStore();
       class="d-flex p-0 col-12 col-md-1 col-lg-1 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between"
     >
       <a class="navbar-brand" href="#"> profiteer </a>
-      <!-- <button
-        class="navbar-toggler d-md-none collapsed mb-3"
-        type="button"
-        data-toggle="collapse"
-        data-target="#sidebar"
-        aria-controls="sidebar"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button> -->
     </div>
     <div class="col-12 col-md-4 col-lg-2">
       <input
@@ -90,14 +79,8 @@ const store = UserStore();
       <!-- Stock Info -->
       <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
         <h1 class="h2">
+          <!-- watch_data is a prop that passes in the current logged in users watched stocks -->
           <Sidebar />
-          <!-- <div class="card">
-            <h5 class="card-header">CHART</h5>
-            <div class="card-body">
-              <pLineChart />
-              <h5 class="card-title">D#####</h5>
-            </div>
-          </div> -->
           <StockInfo ref="stockView" :searched_symbol="what_to_search" />
         </h1>
       </main>
@@ -111,7 +94,6 @@ export default {
     return {
       what_to_search: "GME",
       search: "",
-      watchStocks: [],
     };
   },
   methods: {
@@ -122,14 +104,14 @@ export default {
     async signout() {
       const store = UserStore();
       console.log(store);
-      store.setLoggedin(false);
-      store.setUsername(null);
+      store.logout();
     },
   },
 };
 </script>
 
 <style>
+/* import for icons */
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
 .sidebar {
   position: fixed;

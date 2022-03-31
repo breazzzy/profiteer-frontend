@@ -20,63 +20,46 @@ export default {
     async addToWatch() {
       try {
         const store = UserStore();
+        store.read();
         const res = await BuySellService.addToWatch({
           username: store.getUsername,
           stockTicker: this.SYMBOL,
         });
-        console.log(res);
       } catch (error) {
         alert(error);
       }
     },
-  },
-  async setup() {},
-  async mounted() {
-    // const data = await
-    // function getData(symbol){
-    const result = await InfoService.post(this.searched_symbol);
-    console.log(result.data.message);
-    this.NAME = result.data.message.longName;
-    this.SYMBOL = result.data.message.symbol;
-    this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
-    this.MARKET_CAP = result.data.message.marketCap;
-    this.AVERAGE_VOLUME = result.data.message.averageDailyVolume3Month;
-    this.ANALYST_RATING = result.data.message.averageAnalystRating;
-    this.CURRENT_PRICE = result.data.message.currentPrice;
-    const data = await HistoricalService.post(this.SYMBOL);
-    console.log(data.data.message);
-    this.OPEN = data.data.message[data.data.message.length - 1].open;
-    this.VOLUME = data.data.message[data.data.message.length - 1].volume;
-    this.CURRENT_PRICE =
-      Math.round(
-        data.data.message[data.data.message.length - 1].adjclose * 100
-      ) / 100;
-    this.passedData = data.data.message;
-    this.everyThingIsReady = true;
-  },
-  watch: {
-    async searched_symbol() {
-      console.log("Being called " + this.searched_symbol);
-      this.everyThingIsReady = false;
+    async readData() {
       const result = await InfoService.post(this.searched_symbol);
-      this.NAME = result.data.message.longName;
-      // this.CURRENT_PRICE = result.data.message.currentPrice;
-
       console.log(result.data.message);
+      this.NAME = result.data.message.longName;
       this.SYMBOL = result.data.message.symbol;
       this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
       this.MARKET_CAP = result.data.message.marketCap;
       this.AVERAGE_VOLUME = result.data.message.averageDailyVolume3Month;
       this.ANALYST_RATING = result.data.message.averageAnalystRating;
+      this.CURRENT_PRICE = result.data.message.currentPrice;
       const data = await HistoricalService.post(this.SYMBOL);
+      console.log(data.data.message);
       this.OPEN = data.data.message[data.data.message.length - 1].open;
+      this.VOLUME = data.data.message[data.data.message.length - 1].volume;
       this.CURRENT_PRICE =
         Math.round(
           data.data.message[data.data.message.length - 1].adjclose * 100
         ) / 100;
-      this.VOLUME = data.data.message[data.data.message.length - 1].volume;
       this.passedData = data.data.message;
       this.everyThingIsReady = true;
+    },
+  },
+  async setup() {},
+  async mounted() {
+    this.readData();
+    // const data = await
+    // function getData(symbol){
+  },
+  watch: {
+    async searched_symbol() {
+      this.readData();
       this.$forceUpdate();
     },
   },
