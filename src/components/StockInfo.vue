@@ -10,7 +10,8 @@ const store = UserStore();
 <script>
 // import { defineComponent } from "@vue/composition-api";
 export default {
-  props: { searched_symbol: String },
+  //searchQuery is passed in by the parent component, in this case the 'Dash'
+  props: { searchQuery: String },
   data() {
     return {
       amountToBuy: null,
@@ -18,6 +19,7 @@ export default {
     };
   },
   methods: {
+    //Adds current viewed stocks to watches for current user
     async addToWatch() {
       try {
         const store = UserStore();
@@ -31,6 +33,7 @@ export default {
         alert(error);
       }
     },
+    //Adds current views stock to buys for current user
     async addToBuy() {
       try {
         const store = UserStore();
@@ -46,12 +49,14 @@ export default {
         alert(error);
       }
     },
+    //Function called when the Popper popup is closed
     closePopper() {
       this.amountToBuy = null;
     },
+    //Function for reading data into the chart and stats on screen
     async readData() {
-      const result = await InfoService.post(this.searched_symbol);
-      console.log(result.data.message);
+      const result = await InfoService.post(this.searchQuery);
+      // console.log(result.data.message);
       this.NAME = result.data.message.longName;
       this.SYMBOL = result.data.message.symbol;
       this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
@@ -60,7 +65,7 @@ export default {
       this.ANALYST_RATING = result.data.message.averageAnalystRating;
       this.CURRENT_PRICE = result.data.message.currentPrice;
       const data = await HistoricalService.post(this.SYMBOL);
-      console.log(data.data.message);
+      // console.log(data.data.message);
       this.OPEN = data.data.message[data.data.message.length - 1].open;
       this.VOLUME = data.data.message[data.data.message.length - 1].volume;
       this.CURRENT_PRICE =
@@ -74,11 +79,10 @@ export default {
   async setup() {},
   async mounted() {
     this.readData();
-    // const data = await
-    // function getData(symbol){
   },
+  //Watches for when searchQuery changes, function is called as soon as that variable is changed
   watch: {
-    async searched_symbol() {
+    async searchQuery() {
       await this.readData();
       this.$forceUpdate();
     },

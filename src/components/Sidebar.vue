@@ -17,7 +17,7 @@ const store = UserStore();
       </p>
 
       <p id="balance">
-        <b>Balance: ${{ store.balance }}</b>
+        <b>Balance: ${{ Math.round(store.balance * 100) / 100 }}</b>
       </p>
       <u>Watched Stocks</u>
       <div v-for="stock in watchStocks" :key="stock.id">
@@ -70,7 +70,7 @@ export default {
   data() {
     return {};
   },
-  props: { searched_symbol: String },
+  props: { searchQuery: String },
   computed: {
     //The advatage of using a computed prop instead of just sticking it in "data()" or using a method
     //is one that its a function and "data" cant have functions but most important is that methods arent reactive
@@ -82,43 +82,40 @@ export default {
       return store.getWatchedData;
     },
     currentHoldings() {
+      //Updates current holdings
       const store = UserStore();
-      if (store.loggedin) {
-        console.log("Logged in updating holdings");
-        console.log(store.getBuyData);
-        return store.getBuyData;
-      } else {
-        console.log("Not logged in not updating holdings");
-        return [];
-      }
+      return store.getBuyData;
+      // if (store.loggedin) {
+      //   // console.log(store.getBuyData);
+      // } else {
+      //   return [];
+      // }
     },
   },
   watch: {
-    watchStocks() {
-      console.log("Watch Stocks have changed");
-    },
-    currentHoldings() {
-      // this.currentHoldings = this.currentHoldings.data;
-      console.log("Current Holdings updated");
-    },
+    //Watchers for the two computed values these get called when those values change
+    //We dont need to do anything here though, Vue automatically recalls the points in the template there used, the for loops in this case
+    //Just kept here because it may be usefull to use them in the future
+    watchStocks() {},
+    currentHoldings() {},
   },
   methods: {
     reread() {
-      console.log(this.searched_symbol);
+      //Deprecated, originally used to update the sidebar, and force read the database. Now each button calls a store.read() when clicked
+      console.log(this.searchQuery);
       const store = UserStore();
       store.read();
     },
     set_search_symbol(sym) {
-      console.log(sym);
-      this.$emit("updateSearchedSymbol", sym);
+      this.$emit("updateSearchedSymbol", sym); //this.$emit sends the updated value to the root component in this case the Dash
+      //Since the value being changed in 'Dash' is a prop any other compenent that references that value is updated aswell. In this case its the 'searchQuery' prop
     },
     async sellStock(stock) {
+      //Method for selling stocks
       const store = UserStore();
-      // alert(stock.username);
-      const response = await BuySellService.sell(stock);
+      const response = await BuySellService.sell(stock); //The response for the sell route is a single float being the profit
       store.read();
-      // console.log(response);
-      // alert(response.data.profit);
+      alert("Profit of $" + Math.round(response.data.profit * 100) / 100);
     },
   },
   async mounted() {
@@ -162,8 +159,8 @@ export default {
   font-weight: bold;
 }
 
-#balance {
-}
+/* #balance {
+} */
 
 .row {
   /* text-align: left; */

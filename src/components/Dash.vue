@@ -82,10 +82,10 @@ const store = UserStore();
         <h1 class="h2">
           <!-- watch_data is a prop that passes in the current logged in users watched stocks -->
           <Sidebar
-            :searched_symbol="what_to_search"
-            @updateSearchedSymbol="what_to_search = $event"
+            :searchQuery="searchQuery"
+            @updateSearchedSymbol="searchQuery = $event"
           />
-          <StockInfo ref="stockView" :searched_symbol="what_to_search" />
+          <StockInfo ref="stockView" :searchQuery="searchQuery" />
         </h1>
       </main>
     </div>
@@ -96,18 +96,19 @@ const store = UserStore();
 export default {
   data() {
     return {
-      what_to_search: "GME",
+      searchQuery: "GME",
       search: "",
     };
   },
   methods: {
+    //Submit button for search bar
     async submit() {
       console.log("Search for " + this.search + " submited");
-      this.what_to_search = this.search;
+      this.searchQuery = this.search;
     },
+    //Signout
     async signout() {
       const store = UserStore();
-      console.log(store);
       store.logout();
     },
   },

@@ -46,13 +46,14 @@ export default {
     };
   },
   methods: {
+    //Both the login and register buttons are on the same screen
+    //Login
     async login() {
       try {
         const response = await AuthenticationService.login({
           username: this.username,
           password: this.password,
         });
-        console.log(response.data.message);
         this.$router.push("/");
         const store = UserStore();
         // console.log("User store " + store.userId);
@@ -61,13 +62,8 @@ export default {
       } catch (error) {
         alert(error.response.data.error);
       }
-
-      // if (!response.data.user) {
-      //   console.log("Wrong Password");
-      //   alert("Wrong Password");
-      // } else {
-      // }
     },
+    //Register
     async register() {
       try {
         const response = await AuthenticationService.register({
@@ -75,7 +71,6 @@ export default {
           password: this.password,
           balance: 0,
         });
-        console.log(response.data);
       } catch (error) {
         alert(error.response.data.error);
       }
