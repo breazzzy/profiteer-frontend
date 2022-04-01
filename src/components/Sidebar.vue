@@ -23,11 +23,33 @@ const store = UserStore();
       </div>
       <p></p>
       <u>Current Holdings</u>
-      <div v-for="stock in currentHoldings" :key="stock.id">
-        {{ stock.amountBought }} Shares of {{ stock.stockTicker }} @
-        {{ stock.priceAtBuy }}
+      <div class="container" v-for="stock in currentHoldings" :key="stock.id">
+        <div class="row">
+          <span class="col-2"> {{ stock.amountBought }} </span>
+          <span class="col-4">{{ stock.stockTicker }} @</span>
+          <span class="col-3"> ${{ stock.priceAtBuy }}</span>
+
+          <Popper class="col-3" placement="top" arrow>
+            <button class="btn btn-success btn-sm">
+              <i class="bi bi-currency-dollar"></i>
+            </button>
+            <template #content id="salePopper">
+              <div
+                id="salePopperButton"
+                class="btn btn-block btn-warning btn-sm"
+                @click="
+                  {
+                    sellStock(stock);
+                  }
+                "
+              >
+                Confirm Sale
+              </div>
+            </template>
+          </Popper>
+        </div>
       </div>
-      <button @click="reread"></button>
+      <!-- <button @click="reread"></button> -->
     </div>
     <!-- sidebar content -->
   </nav>
@@ -74,6 +96,9 @@ export default {
       console.log(sym);
       this.$emit("updateSearchedSymbol", sym);
     },
+    sellStock(stock) {
+      alert(stock.amountBought);
+    },
   },
   async mounted() {
     // const store = UserStore();
@@ -82,17 +107,43 @@ export default {
     // this.watchStocks = store.getWatchedData();
     // console.log("b");
   },
-  setup() {},
+  setup(stock) {
+    alert(stock.stockTicker);
+  },
 };
 </script>
 
-<style>
+<style scoped>
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
+
 .sidebar {
   /* position: fixed; */
-  text-align: center;
+  text-align: left;
   font-size: 16px;
   overflow: scroll;
+}
+
+#salePopperButton {
+  font-size: 16px;
+}
+
+:deep(.popper) {
+  /* background: #7e7312; */
+  padding: 10px;
+  /* border-radius: 300px; */
+  font-weight: bold;
+}
+
+.row {
+  /* text-align: left; */
+  border-bottom: 1px solid grey;
+}
+
+:root {
+  font-size: 220px;
+  /* --popper-theme-border-radius: 10px; */
+  --popper-theme-background-color: #115a70;
+  /* --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25); */
 }
 
 @media (min-width: 767.98px) {

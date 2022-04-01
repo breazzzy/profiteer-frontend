@@ -13,6 +13,7 @@ export default {
   props: { searched_symbol: String },
   data() {
     return {
+      amountToBuy: null,
       everyThingIsReady: false,
     };
   },
@@ -36,13 +37,16 @@ export default {
           stockTicker: this.SYMBOL,
           username: store.getUsername,
           priceAtBuy: this.CURRENT_PRICE,
-          amountBought: 20.0,
+          amountBought: this.amountToBuy,
         });
         console.log("Finished Buy");
         store.read();
       } catch (error) {
         alert(error);
       }
+    },
+    closePopper() {
+      this.amountToBuy = null;
     },
     async readData() {
       const result = await InfoService.post(this.searched_symbol);
@@ -87,13 +91,30 @@ export default {
       <div class="col-9">
         <b>{{ SYMBOL }}: </b>{{ CURRENT_PRICE }}
       </div>
-      <button
+      <!-- <button
         v-if="store.loggedin"
         class="btn btn-danger btn-sm col-1"
         @click="addToBuy()"
       >
         Buy
-      </button>
+      </button> -->
+      <!--  -->
+      <Popper class="" v-if="store.loggedin" arrow @close:popper="closePopper">
+        <button class="btn btn-danger">Buy</button>
+        <template #content>
+          <div class="d-flex justify-content-center">
+            <input
+              type="username"
+              class="form-control"
+              v-model="amountToBuy"
+              id="usernameinput"
+              placeholder="Amount $$$"
+            />
+            <button class="btn btn-primary" @click="addToBuy()">Confirm</button>
+          </div>
+        </template>
+      </Popper>
+      <!--  -->
       <button v-if="store.loggedin" class="btn btn-success btn-sm col-1">
         Sell
       </button>
@@ -143,6 +164,11 @@ export default {
 </template>
 
 <style scoped>
+popper {
+  margin-left: 0px;
+  margin-right: 0px;
+  font-size: 1px;
+}
 .card {
   /* background-color: lightgray; */
   padding-bottom: 10px;

@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "@/components/Dash.vue";
 import Register from "@/components/Register.vue";
 import ChartTest from "@/components/GraphTestScreen.vue";
+import Test from "@/components/Test.vue";
 // Router
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/testchart",
     name: "Chart",
     component: ChartTest,
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: Test,
   },
 ];
 
