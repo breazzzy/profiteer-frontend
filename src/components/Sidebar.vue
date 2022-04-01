@@ -12,8 +12,12 @@ const store = UserStore();
     class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
   >
     <div v-if="store.loggedin">
-      <p>
+      <p id="username">
         <b>{{ store.getUsername }}</b>
+      </p>
+
+      <p id="balance">
+        <b>Balance: ${{ store.balance }}</b>
       </p>
       <u>Watched Stocks</u>
       <div v-for="stock in watchStocks" :key="stock.id">
@@ -23,7 +27,11 @@ const store = UserStore();
       </div>
       <p></p>
       <u>Current Holdings</u>
-      <div class="container" v-for="stock in currentHoldings" :key="stock.id">
+      <div
+        class="container"
+        v-for="stock in currentHoldings.data"
+        :key="stock.id"
+      >
         <div class="row">
           <span class="col-2"> {{ stock.amountBought }} </span>
           <span class="col-4">{{ stock.stockTicker }} @</span>
@@ -75,7 +83,14 @@ export default {
     },
     currentHoldings() {
       const store = UserStore();
-      return store.getBuyData;
+      if (store.loggedin) {
+        console.log("Logged in updating holdings");
+        console.log(store.getBuyData);
+        return store.getBuyData;
+      } else {
+        console.log("Not logged in not updating holdings");
+        return [];
+      }
     },
   },
   watch: {
@@ -83,6 +98,7 @@ export default {
       console.log("Watch Stocks have changed");
     },
     currentHoldings() {
+      // this.currentHoldings = this.currentHoldings.data;
       console.log("Current Holdings updated");
     },
   },
@@ -96,8 +112,13 @@ export default {
       console.log(sym);
       this.$emit("updateSearchedSymbol", sym);
     },
-    sellStock(stock) {
-      alert(stock.amountBought);
+    async sellStock(stock) {
+      const store = UserStore();
+      // alert(stock.username);
+      const response = await BuySellService.sell(stock);
+      store.read();
+      // console.log(response);
+      // alert(response.data.profit);
     },
   },
   async mounted() {
@@ -118,7 +139,7 @@ export default {
 
 .sidebar {
   /* position: fixed; */
-  text-align: left;
+  text-align: center;
   font-size: 16px;
   overflow: scroll;
 }
@@ -127,11 +148,21 @@ export default {
   font-size: 16px;
 }
 
+#username {
+  font-size: 24px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  border-bottom: 2px solid black;
+}
+
 :deep(.popper) {
   /* background: #7e7312; */
   padding: 10px;
   /* border-radius: 300px; */
   font-weight: bold;
+}
+
+#balance {
 }
 
 .row {

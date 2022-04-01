@@ -25,6 +25,7 @@ export default {
           username: store.getUsername,
           stockTicker: this.SYMBOL,
         });
+        console.log(res);
         store.read();
       } catch (error) {
         alert(error);

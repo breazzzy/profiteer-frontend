@@ -37,6 +37,7 @@ const store = UserStore();
         <a
           class="btn btn-outline-danger"
           href="https://github.com/breazzzy/profiteer-frontend"
+          target="_blank"
           ><i class="bi bi-github"></i>Github</a
         >
       </div>

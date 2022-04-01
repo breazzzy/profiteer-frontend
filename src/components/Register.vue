@@ -73,6 +73,7 @@ export default {
         const response = await AuthenticationService.register({
           username: this.username,
           password: this.password,
+          balance: 0,
         });
         console.log(response.data);
       } catch (error) {
