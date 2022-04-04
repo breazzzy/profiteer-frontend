@@ -18,7 +18,7 @@
         <div class="form-group">
           <label for="passwordInput">Password</label>
           <input
-            type="username"
+            type="password"
             class="form-control"
             v-model="password"
             id="passwordInput"

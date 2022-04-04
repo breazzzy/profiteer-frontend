@@ -24,6 +24,7 @@ const store = UserStore();
         type="text"
         v-model="search"
         placeholder="Search"
+        @keydown.enter="submit"
         aria-label="Search"
       />
     </div>
