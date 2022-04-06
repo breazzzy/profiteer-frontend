@@ -14,7 +14,8 @@ export default {
   },
 
   setup(props) {
-    const data = ref(props.passedData);
+    // const data = ref(props.passedData);
+    const data = []
     const direction = ref("horizontal");
     const margin = ref({
       left: 0,
@@ -25,16 +26,14 @@ export default {
 
     return { data, direction, margin };
   },
-  async mounted() {
-    console.log(this.passedData);
-  },
+  async mounted() {},
 };
 </script>
 
-<template v-if="everyThingIsReady">
+<template v-if="passedData">
   <Chart
     :size="{ width: 800, height: 400 }"
-    :data="data"
+    :data="passedData"
     :margin="margin"
     :direction="direction"
   >

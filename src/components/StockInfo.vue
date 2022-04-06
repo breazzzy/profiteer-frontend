@@ -91,7 +91,7 @@ export default {
   },
   async setup() {},
   async mounted() {
-    this.readData();
+    await this.readData();
   },
   //Watches for when searchQuery changes, function is called as soon as that variable is changed
   watch: {
