@@ -11,13 +11,13 @@ const store = UserStore();
     id="sidebar"
     class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
   >
-    <div v-if="store.loggedin">
+    <div v-if="store.getLoggedIn">
       <p id="username">
-        <b>{{ store.getUsername }}</b>
+        <b>{{ store.state.username }}</b>
       </p>
 
       <p id="balance">
-        <b>Balance: ${{ Math.round(store.balance * 100) / 100 }}</b>
+        <b>Balance: ${{ Math.round(store.state.balance * 100) / 100 }}</b>
       </p>
       <u>Watched Stocks</u>
       <div v-for="stock in watchStocks" :key="stock.id">
@@ -72,19 +72,19 @@ export default {
   },
   props: { searchQuery: String },
   computed: {
-    //The advatage of using a computed prop instead of just sticking it in "data()" or using a method
+    //The advantage of using a computed prop instead of just sticking it in "data()" or using a method
     //is one that its a function and "data" cant have functions but most important is that methods arent reactive
     //This watchStocks() function will be called everytime store.getWatchedData is changed
     //This allows me to update the information on the sidebar everytime the user adds a new stock to their watch list
     //This prop reads the current users watch data
     watchStocks() {
       const store = UserStore();
-      return store.getWatchedData;
+      return store.state.watched_data;
     },
     currentHoldings() {
       //Updates current holdings
       const store = UserStore();
-      return store.getBuyData;
+      return store.state.buy_data;
       // if (store.loggedin) {
       //   // console.log(store.getBuyData);
       // } else {

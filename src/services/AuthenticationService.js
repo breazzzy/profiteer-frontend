@@ -7,9 +7,8 @@ export default {
   login(credentials) {
     return API().post("login", credentials);
   },
-  getBalance(user) {
-    console.log("POSTING TO GET_BALANCE");
-    return API().post("balance", user);
+  getBalance() {
+    return API().post("balance");
   },
 };
 

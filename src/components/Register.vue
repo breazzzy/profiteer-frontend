@@ -56,11 +56,12 @@ export default {
         });
         this.$router.push("/");
         const store = UserStore();
-        // console.log("User store " + store.userId);
         store.setUsername(response.data.user.username);
+        store.setToken(response.data.token);
         store.setLoggedin(true);
       } catch (error) {
-        alert(error.response.data.error);
+        alert(error);
+        console.log(error);
       }
     },
     //Register
@@ -71,6 +72,7 @@ export default {
           password: this.password,
           balance: 0,
         });
+        alert("Account created " + response.data.username);
       } catch (error) {
         alert(error.response.data.error);
       }

@@ -16,6 +16,15 @@ export default {
     return {
       amountToBuy: null,
       everyThingIsReady: false,
+      AVERAGE_VOLUME: null,
+      SYMBOL: null,
+      CURRENT_PRICE: null,
+      VOLUME: null,
+      MARKET_CAP: null,
+      FIVETWOWEEK_HIGH: null,
+      ANALYST_RATING: null,
+      OPEN: null,
+      NAME: null,
     };
   },
   methods: {
@@ -24,7 +33,7 @@ export default {
       try {
         const store = UserStore();
         const res = await BuySellService.addToWatch({
-          username: store.getUsername,
+          username: store.state.username,
           stockTicker: this.SYMBOL,
         });
         console.log(res);
@@ -39,14 +48,18 @@ export default {
         const store = UserStore();
         const res = await BuySellService.addToBuy({
           stockTicker: this.SYMBOL,
-          username: store.getUsername,
+          username: store.state.username,
           priceAtBuy: this.CURRENT_PRICE,
           amountBought: this.amountToBuy,
         });
-        console.log("Finished Buy");
+        alert("Buy Complete!");
         store.read();
       } catch (error) {
-        alert(error);
+        if (error.response.status === 403) {
+          alert("Token denied! Try logging back in");
+        } else {
+          alert(error);
+        }
       }
     },
     //Function called when the Popper popup is closed
@@ -104,7 +117,12 @@ export default {
         Buy
       </button> -->
       <!--  -->
-      <Popper class="" v-if="store.loggedin" arrow @close:popper="closePopper">
+      <Popper
+        class=""
+        v-if="store.state.loggedin"
+        arrow
+        @close:popper="closePopper"
+      >
         <button class="btn btn-danger">Buy</button>
         <template #content>
           <div class="d-flex justify-content-center">
@@ -120,11 +138,11 @@ export default {
         </template>
       </Popper>
       <!--  -->
-      <button v-if="store.loggedin" class="btn btn-success btn-sm col-1">
+      <button v-if="store.state.loggedin" class="btn btn-success btn-sm col-1">
         Sell
       </button>
       <button
-        v-if="store.loggedin"
+        v-if="store.state.loggedin"
         class="btn btn-warning btn-sm col-1"
         @click="addToWatch()"
       >
