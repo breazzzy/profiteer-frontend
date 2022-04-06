@@ -115,7 +115,8 @@ export default {
       const store = UserStore();
       const response = await BuySellService.sell(stock); //The response for the sell route is a single float being the profit
       store.read();
-      alert("Profit of $" + Math.round(response.data.profit * 100) / 100);
+      alert("Profit of $" + Math.round(response.data.profit * 100) / 100 + "\n(" 
+      + response.data.regularMarketPrice + " - " + response.data.priceAtBuy + ") * " + response.data.amountBought);
     },
   },
   async mounted() {
