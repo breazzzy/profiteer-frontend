@@ -10,7 +10,7 @@ const store = UserStore();
 <template>
   <!-- boostrap -->
   <nav
-    class="navbar navbar-light bg-light p-3"
+    class="navbar navbar-light bg-light p-3 position-sticky"
     style="background-color: #e3f2fd"
   >
     <div

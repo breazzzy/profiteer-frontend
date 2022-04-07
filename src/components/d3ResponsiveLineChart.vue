@@ -47,29 +47,19 @@
 <script>
 import { onMounted, ref, watchEffect } from "vue";
 import HistoricalService from "@/services/HistoricalService.js";
+import * as Vue from "vue";
 import * as d3 from "d3";
 
 export default {
   name: "d3ResponsiveLineChart",
   props: ["selectedMonth", "searchQuery"],
+  data() {
+    return { pageLoadedAllready: false };
+  },
   async mounted() {
     console.log("Mounted Chart");
 
     this.drawChart();
-    // const svg = d3.select("#idForRef").append('circle').attr("cx", 40).attr("cy",20).attr('r',20).attr('fill', 'blue');
-
-    // d3.select("#idForRef")
-    //   .selectAll("path")
-    //   .on("mouseout", function () {
-    //     d3.select("#tooltip").style("opacity", 0);
-    //   })
-    //   .on("mousemove", function (e) {
-    //     // console.log(d3.event.pageX);
-    //     d3.select("#tooltip")
-    //       .style("left", e.pageX + "px")
-    //       .style("top", e.pageY + "px");
-    //   });
-    // d3.select('#idForRef').append('path')
   },
   setup() {},
   watch: {
@@ -143,19 +133,13 @@ export default {
         .y((d) => Y(d.close))
 
         .curve(d3.curveNatural);
-
+      //add path attribute to svg in dom
       const path = d3
         .select("#idForRef")
         .append("path")
-        .attr("d", line(stockData))
         .attr("transform", `translate(${MARGINS.left},10)`)
-        .on("mouseover", function (event, d) {
-          d3.select("#tooltip")
-            .transition()
-            .duration(200)
-            .style("opacity", 0)
-            .text(event);
-        });
+        .attr("d", line(stockData));
+      //Define x and y axis
       const xAxis = d3.axisBottom().scale(X);
       const yAxis = d3.axisLeft().scale(Y);
       const xAxisRef = d3
@@ -172,7 +156,6 @@ export default {
       //   }
       // });
       const everypossibleday = X.ticks(d3.timeDay.every(1));
-      console.log(everypossibleday);
       //Build rectangular boxes that will highlight weekends
       d3.select("#idForRef")
         .selectAll("bars")
@@ -242,6 +225,43 @@ export default {
         .on("mouseout", function (d) {
           d3.select("#tooltip").transition().duration(500).style("opacity", 0);
         });
+      //Add animation
+      d3.selectAll("path")
+        .transition()
+        .duration(3000)
+        .attrTween("stroke-dasharray", function () {
+          const length = this.getTotalLength();
+          return d3.interpolate(`0,${length}`, `${length},${length}`);
+        })
+        .style("stroke-width", "1px");
+      //Animate radio buttons if this is our first time loading the page
+      if (!this.pageLoadedAllready) {
+        d3.selectAll("label")
+          .transition()
+          .style("font-size", "1px")
+          .duration(0)
+          .transition()
+          .style("font-size", "12px")
+          .duration(1000);
+        this.pageLoadedAllready = true;
+      }
+      // console.log(path.getTotalLength());
+    },
+    animate() {
+      console.log("animate");
+      console.log("next tick");
+
+      // const reveal = (path) => {
+      //   path
+      //     .transition()
+      //     .duration(7500)
+      //     .ease(d3.easeLinear)
+      //     .attrTween("stroke-dasharray", function () {
+      //       const length = this.getTotalLength();
+      //       return d3.interpolate(`0,${length}`, `${length},${length}`);
+      //     });
+      // };
+      // d3.selectAll("path").call(reveal);
     },
   },
 };
@@ -258,10 +278,9 @@ export default {
 }
 path {
   stroke: black;
-
+  /* transition: r 0.2s ease-in-out; */
   fill: none;
-  stroke-width: 1.5px;
-  stroke-dasharray: 1px;
+  stroke-width: 1px;
 }
 
 g {
