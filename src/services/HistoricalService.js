@@ -1,8 +1,8 @@
 import API from "@/services/API";
 
 export default {
-  post(symbol) {
-    return API().post("stock_info_chart", { sym: symbol });
+  post(symbol, period) {
+    return API().post("stock_info_chart", { sym: symbol, period: period });
   },
 };
 

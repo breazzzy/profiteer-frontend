@@ -1,5 +1,6 @@
 <script setup>
 import pLineChart from "./pLineChart.vue";
+import d3ResponsiveLineChart from "./d3ResponsiveLineChart.vue";
 import InfoService from "@/services/InfoService.js";
 import HistoricalService from "@/services/HistoricalService.js";
 import BuySellService from "@/services/BuySellService.js";
@@ -77,8 +78,15 @@ export default {
       this.AVERAGE_VOLUME = result.data.message.averageDailyVolume3Month;
       this.ANALYST_RATING = result.data.message.averageAnalystRating;
       this.CURRENT_PRICE = result.data.message.currentPrice;
-      const data = await HistoricalService.post(this.SYMBOL);
-      // console.log(data.data.message);
+
+      const today = new Date();
+      today.setMonth(today.getMonth() - 1);
+      console.log(today.toISOString());
+      const data = await HistoricalService.post(
+        this.SYMBOL,
+        today.toISOString().substring(0, 10)
+      );
+      console.log(data);
       this.OPEN = data.data.message[data.data.message.length - 1].open;
       this.VOLUME = data.data.message[data.data.message.length - 1].volume;
       this.CURRENT_PRICE =
@@ -149,10 +157,18 @@ export default {
         Watch
       </button>
     </h5>
+
     <div class="card-body">
-      <template v-if="everyThingIsReady"
+      <!-- <template v-if="everyThingIsReady"
         ><pLineChart :passedData="passedData"
-      /></template>
+      /></template> -->
+      <template v-if="everyThingIsReady">
+        <d3ResponsiveLineChart
+          :searchQuery="this.searchQuery"
+          :selectedMonth="3"
+        />
+      </template>
+      <div>Picked: {{ picked }}</div>
 
       <h5 class="card-title">
         <p>Stats</p>

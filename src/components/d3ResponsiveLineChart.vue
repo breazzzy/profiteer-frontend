@@ -1,42 +1,300 @@
 <template>
-  <svg id="idForRef" ref="svgRef" width="800" height="500">
-  </svg>
+  <div class="d-flex-inline" id="radio-buttons">
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        value="3"
+        v-model="selectedMonth"
+        @click="loadData"
+        name="flexRadioDefault"
+        id="flexRadioDefault1"
+      />
+      <label class="form-check-label" for="flexRadioDefault1"> 3 Months </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        value="6"
+        v-model="selectedMonth"
+        @click="loadData"
+        name="flexRadioDefault"
+        id="flexRadioDefault1"
+      />
+      <label class="form-check-label" for="flexRadioDefault2"> 6 Months </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        value="12"
+        v-model="selectedMonth"
+        @click="loadData"
+        name="flexRadioDefault"
+        id="flexRadioDefault1"
+      />
+      <label class="form-check-label" for="flexRadioDefault2">
+        12 Months
+      </label>
+    </div>
+  </div>
+  <body id="chartBody">
+    <svg id="idForRef" ref="svgRef" width="1000" height="500"></svg>
+  </body>
 </template>
 
 <script>
 import { onMounted, ref, watchEffect } from "vue";
+import HistoricalService from "@/services/HistoricalService.js";
 import * as d3 from "d3";
 
 export default {
   name: "d3ResponsiveLineChart",
-  props: ["data"],
-  mounted(){
-    const testdata = [{"step":0,"value":2.387926594027067},{"step":1,"value":2.4062479800130117},{"step":2,"value":2.7050578216983694},{"step":3,"value":2.4330287951478327},{"step":4,"value":2.9092960612145027},{"step":5,"value":2.792490552155116},{"step":6,"value":2.646820445845527},{"step":7,"value":2.618311998221048},{"step":8,"value":2.199418763764701},{"step":9,"value":2.1934075827138404},{"step":10,"value":1.7212727097666636},{"step":11,"value":1.7627662609686585},{"step":12,"value":2.096893004489389},{"step":13,"value":2.315564823059495},{"step":14,"value":2.407421611589666},{"step":15,"value":2.5415008114855024},{"step":16,"value":2.4977106767624333},{"step":17,"value":2.594994671704047},{"step":18,"value":2.5589011370793284},{"step":19,"value":2.444226200053255},{"step":20,"value":2.004857016297871},{"step":21,"value":2.2534102077374514},{"step":22,"value":2.5329755530166516},{"step":23,"value":3.0209646556857637},{"step":24,"value":3.5019147964628994},{"step":25,"value":3.66597193914872},{"step":26,"value":3.2466001458170775},{"step":27,"value":2.8076734827093697},{"step":28,"value":3.23436338859491},{"step":29,"value":3.6597286514728156},{"step":30,"value":4},{"step":31,"value":4},{"step":32,"value":3.6282664398419024},{"step":33,"value":3.590210053536863},{"step":34,"value":3.2690798291522185},{"step":35,"value":3.116194913966688},{"step":36,"value":2.9189863360804544},{"step":37,"value":3.2049042086390775},{"step":38,"value":3.6546387872282033},{"step":39,"value":3.97337334182704},{"step":40,"value":4},{"step":41,"value":3.5196531899821757},{"step":42,"value":3.1453260211991276},{"step":43,"value":3.3161305429572945},{"step":44,"value":3.541132951462595},{"step":45,"value":3.943853796717561},{"step":46,"value":4},{"step":47,"value":4},{"step":48,"value":3.633556112362962},{"step":49,"value":3.848956272483938}];
-    // const svg = d3.select("#idForRef").append('circle').attr("cx", 40).attr("cy",20).attr('r',20).attr('fill', 'blue');  
-    const line = d3.line().x(d => walkX(d.step)).y(d => walkY(d.value)).curve(d3.curveNatural);
-    const data = [[0,10],[10,10],[20,30],[30,15],[40,45],[50,60]]
-    const walkX = d3.scaleLinear().domain([0,49]).range([10,800-10])
-    const walkY = d3.scaleLinear().domain([0,4]).range([200-10,10])
-    d3.select('#idForRef').append('path').attr('d', line(testdata)).attr('transform','translate(15,10)');
-    const xAxis =  d3.axisBottom().scale(walkX);
-    const yAxis = d3.axisLeft().scale(walkY);
-    d3.select('#idForRef').attr('transform','translate(40,10)')
-    d3.select('#idForRef').append('g').attr('transform', 'translate(15,200)').call(xAxis);
-    d3.select('#idForRef').append('g').attr('transform', 'translate(25,10)').call(yAxis);
+  props: ["selectedMonth", "searchQuery"],
+  async mounted() {
+    console.log("Mounted Chart");
+
+    this.drawChart();
+    // const svg = d3.select("#idForRef").append('circle').attr("cx", 40).attr("cy",20).attr('r',20).attr('fill', 'blue');
+
+    // d3.select("#idForRef")
+    //   .selectAll("path")
+    //   .on("mouseout", function () {
+    //     d3.select("#tooltip").style("opacity", 0);
+    //   })
+    //   .on("mousemove", function (e) {
+    //     // console.log(d3.event.pageX);
+    //     d3.select("#tooltip")
+    //       .style("left", e.pageX + "px")
+    //       .style("top", e.pageY + "px");
+    //   });
     // d3.select('#idForRef').append('path')
   },
-  setup() {
+  setup() {},
+  watch: {
+    selectedMonth() {
+      console.log(this.selectedMonth);
+      this.drawChart();
+    },
+    searchQuery() {
+      console.log(this.searchQuery);
+      this.drawChart();
+    },
+  },
+  methods: {
+    async drawChart() {
+      d3.select("#idForRef").remove();
+      d3.select("#tooltip").remove();
+      const MARGINS = {
+        top: 20,
+        right: 20,
+        bottom: 40,
+        left: 20,
+      };
+      const dot_radi =
+        this.selectedMonth == 3 ? 4 : this.selectedMonth == 6 ? 2.5 : 2;
+      const height = 500;
+      const width = 1000;
+      d3.select("#chartBody")
+        .append("svg")
+        .attr("id", "idForRef")
+        .attr("width", width)
+        .attr("height", height);
+
+      const today = new Date();
+      today.setMonth(today.getMonth() - this.selectedMonth);
+      const stockData = (
+        await HistoricalService.post(
+          this.searchQuery,
+          today.toISOString().substring(0, 10)
+        )
+      ).data.message;
+      console.log(stockData);
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      const X = d3
+        .scaleTime()
+        .domain([
+          Date.parse(stockData[0].date),
+          Date.parse(stockData[stockData.length - 1].date),
+        ])
+        .range([10, width - MARGINS.right]);
+      const Y = d3
+        .scaleLinear()
+        .domain([0, d3.max(stockData, (d) => d.close)])
+        .range([height - MARGINS.bottom, 10]);
+
+      const line = d3
+        .line()
+        .x((d) => X(Date.parse(d.date)))
+        .y((d) => Y(d.close))
+
+        .curve(d3.curveNatural);
+
+      const path = d3
+        .select("#idForRef")
+        .append("path")
+        .attr("d", line(stockData))
+        .attr("transform", `translate(${MARGINS.left},10)`)
+        .on("mouseover", function (event, d) {
+          d3.select("#tooltip")
+            .transition()
+            .duration(200)
+            .style("opacity", 0)
+            .text(event);
+        });
+      const xAxis = d3.axisBottom().scale(X);
+      const yAxis = d3.axisLeft().scale(Y);
+      const xAxisRef = d3
+        .select("#idForRef")
+        .append("g")
+        .attr("id", "xAxis")
+        .attr("transform", `translate(${MARGINS.left},470)`)
+        .call(xAxis);
+      // xAxisRef.selectAll(".tick").each(function (d, i) {
+      //   if (i == 1) {
+      //     console.log(d3.select(this));
+      //     d3.select(this).append("text").text("ace");
+      //     console.log(d + " + " + i);
+      //   }
+      // });
+      const everypossibleday = X.ticks(d3.timeDay.every(1));
+      console.log(everypossibleday);
+      //Build rectangular boxes that will highlight weekends
+      d3.select("#idForRef")
+        .selectAll("bars")
+        .data(
+          everypossibleday.filter(function (value, index, arr) {
+            return value.getDay() == 0 || value.getDay() == 6;
+          })
+        )
+        .enter()
+        .append("rect")
+        .attr("transform", "translate(15,10)")
+        .attr("x", function (d, i) {
+          return X(Date.parse(d)) + width / everypossibleday.length / 2;
+        })
+        .attr("y", function (d) {
+          return 0;
+        })
+        .attr("width", width / everypossibleday.length)
+        .attr("height", 500 - 40)
+        .attr("fill", "grey");
+      //Add yAxis
+      d3.select("#idForRef")
+        .append("g")
+        .attr("id", "yAxis")
+        .attr("transform", `translate(${MARGINS.left + 10},20)`)
+        .call(yAxis);
+      //Add tooltip for highlighting
+      const toolTip = d3
+        .select("body")
+        .append("div")
+        .attr("id", "tooltip")
+        .attr("class", "tooltip")
+        .attr("style", "position: absolute; opacity: 0;");
+      //Add dots to datapoints
+      //The mouseover functions are for the tooltip
+      d3.select("#idForRef")
+        .selectAll("dot")
+        .data(stockData)
+        .enter()
+        .append("circle")
+        .attr("transform", `translate(${MARGINS.left},10)`)
+        .attr("r", dot_radi)
+        .attr("cx", function (d) {
+          return X(Date.parse(d.date));
+        })
+        .attr("cy", function (d) {
+          return Y(d.close);
+        })
+        .on("mouseover", function (event, d) {
+          d3.select("#tooltip")
+            .transition()
+            .duration(200)
+            .style("opacity", 0.6);
+          const day = new Date(Date.parse(d.date));
+
+          d3.select("#tooltip")
+            .html(
+              monthNames[day.getMonth()] +
+                " " +
+                day.getDate() +
+                "<br/> $" +
+                Math.round(d.close)
+            )
+            .style("left", event.pageX + "px")
+            .style("top", event.pageY + "px");
+        })
+        .on("mouseout", function (d) {
+          d3.select("#tooltip").transition().duration(500).style("opacity", 0);
+        });
+    },
   },
 };
 </script>
 
 <style>
-path{
-  stroke: black;
-  fill: none;
-  
+#radio-buttons {
+  font-size: 12px;
 }
-g{
+#idForRef {
+  padding-left: 0px;
+  margin-left: 0px;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+path {
+  stroke: black;
+
+  fill: none;
+  stroke-width: 1.5px;
+  stroke-dasharray: 1px;
+}
+
+g {
   font-size: 10px;
+}
+.card {
+  padding-bottom: 10px;
+  padding: 10px;
+  margin: 20px;
+}
+circle {
+  fill: rgb(0, 128, 85);
+}
+rect {
+  fill: darkgray;
+  opacity: 0.05;
+  outline-style: dashed;
+  outline-width: 0.1px;
+  outline-color: rgb(0, 0, 0, 0.1);
+}
+
+#tooltip {
+  position: absolute;
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  font: 12px sans-serif;
+  font-weight: bold;
+  color: whitesmoke;
+  background: black;
+  border: 4px;
+  border-radius: 8px;
+  pointer-events: none;
 }
 </style>
