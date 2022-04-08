@@ -4,6 +4,7 @@ import { ref, watch } from "vue";
 import AuthenticationService from "@/services/AuthenticationService";
 // store.setUserBalance(response.data.user.balance);
 
+//Store that holds login information and more
 export const UserStore = defineStore("UserStore", () => {
   const state = ref({
     username: null,

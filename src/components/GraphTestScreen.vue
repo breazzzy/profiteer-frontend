@@ -8,15 +8,21 @@
     />
     <button @click="loadData">click</button>
   </div>
+
+  <div>
+    <d3BubbleInfo></d3BubbleInfo>
+  </div>
 </template>
 
 <script>
 import d3ResponsiveLineChart from "./d3ResponsiveLineChart.vue";
+import d3BubbleInfo from "./d3BubbleInfo.vue";
 import HistoricalService from "@/services/HistoricalService.js";
 
 export default {
   components: {
     d3ResponsiveLineChart,
+    d3BubbleInfo,
   },
 
   data() {

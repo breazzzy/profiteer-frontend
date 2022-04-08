@@ -13,8 +13,12 @@ See [Vite Configuration Reference](https://vitejs.dev/config/). -->
 ## About
 
 Simple website made to view stock information, made as a school project.
-
 Backend -> *https://github.com/breazzzy/profiteer-backend*
+
+## Packages used
+
+Vue.js, Axios.js, d3.js, pinia.js and bootstrap. I also used vue3-popper for popups.
+Use JWT for logins.
 
 ## Project Setup
 
