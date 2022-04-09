@@ -15,8 +15,26 @@ export default {
   async mounted() {
     this.draw();
   },
+  computed: {
+    get_buydata() {
+      const store = UserStore();
+      console.log("Gang shit");
+      return store.state.buy_data;
+    },
+  },
+  watch: {
+    get_buydata() {
+      console.log("Store watched");
+      this.draw();
+    },
+  },
   methods: {
     async draw() {
+      if (d3.select("#idForBubble")) {
+        d3.select("#idForBubble").remove();
+        d3.select("#bubbleToolTip").remove();
+      }
+      d3.select("#bubbleBody").append("svg").attr("id", "idForBubble");
       const data = [
         { id: "abc", value: 20 },
         { id: "bbc", value: 10 },
@@ -35,8 +53,8 @@ export default {
       ];
 
       //Get data
-      const store = UserStore();
-      const buy_data = store.state.buy_data;
+      //   const buy_data = store.state.buy_data;
+      const buy_data = this.get_buydata;
       var merged_buydata = [];
       buy_data.data.forEach((item) => {
         const notYetAdded =
@@ -93,6 +111,7 @@ export default {
         .attr("stroke", "black")
         .attr("stroke-width", 2)
         .attr("stroke-opacity", 0.5)
+        .attr("opacity", 0.5)
         .style(
           "fill",
           (c) =>
@@ -102,7 +121,6 @@ export default {
                 : (currentColor += 1)
             ]
         )
-        .attr("fill-opacity", 0.5)
         .attr("r", (d) => d.r);
 
       const uid = `O-${Math.random().toString(16).slice(2)}`;
@@ -133,17 +151,15 @@ export default {
       const toolTip = d3
         .select("body")
         .append("div")
-        .attr("id", "tooltip")
+        .attr("id", "bubbleToolTip")
         .attr("class", "tooltip")
         .attr("style", "position: absolute; opacity: 0;");
 
-      d3.selectAll("circle")
+      d3.select("#bubbleBody")
+        .selectAll("circle")
         .on("mouseover", function (event, d) {
-          d3.select("#tooltip")
-            .transition()
-            .duration(200)
-            .style("opacity", 0.6);
-          d3.select("#tooltip")
+          toolTip.transition().duration(200).style("opacity", 0.6);
+          toolTip
             .html(
               merged_buydata[d.data].stockTicker +
                 "<br/>" +
@@ -155,14 +171,15 @@ export default {
             .style("top", event.pageY + "px");
         })
         .on("mousemove", function (event, d) {
-          d3.select("#tooltip")
+          toolTip
             .style("left", event.pageX + "px")
             .style("top", event.pageY + "px");
         })
         .on("mouseout", function (event, d) {
-          d3.select("#tooltip").transition().duration(500).style("opacity", 0);
+          toolTip.transition().duration(500).style("opacity", 0);
         });
       const node = d3
+        .select("#bubbleBody")
         .selectAll("circle")
         .transition()
         .attr("r", 0)
@@ -220,13 +237,24 @@ text {
   font-size: 10px;
   clip-path: 40%;
 }
-circle {
-  /* outline-color: red; */
-  stroke-width: 0px;
-}
-#tooltip {
+/* #bubbleToolTip {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: bolder;
+} */
+
+#bubbleToolTip {
+  position: absolute;
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  font: 12px sans-serif;
+  font-weight: bolder;
+  color: whitesmoke;
+  background: black;
+  border: 4px;
+  border-radius: 8px;
+  pointer-events: none;
 }
 </style>

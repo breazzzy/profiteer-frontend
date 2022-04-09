@@ -60,7 +60,7 @@ const store = UserStore();
       </div>
       <!-- <button @click="reread"></button> -->
     </div>
-    <div>
+    <div v-if="store.getLoggedIn">
       <d3BubbleInfo :svgWidth="300" :svgHeight="300"></d3BubbleInfo>
     </div>
     <!-- sidebar content -->

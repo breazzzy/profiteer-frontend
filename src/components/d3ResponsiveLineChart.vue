@@ -226,7 +226,8 @@ export default {
           d3.select("#tooltip").transition().duration(500).style("opacity", 0);
         });
       //Add animation
-      d3.selectAll("path")
+      d3.select("#idForRef")
+        .selectAll("path")
         .transition()
         .duration(3000)
         .attrTween("stroke-dasharray", function () {
@@ -236,7 +237,8 @@ export default {
         .style("stroke-width", "1px");
       //Animate radio buttons if this is our first time loading the page
       if (!this.pageLoadedAllready) {
-        d3.selectAll("label")
+        d3.select("#idForRef")
+          .selectAll("label")
           .transition()
           .style("font-size", "1px")
           .duration(0)
