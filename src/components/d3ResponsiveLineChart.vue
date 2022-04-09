@@ -100,7 +100,7 @@ export default {
           today.toISOString().substring(0, 10)
         )
       ).data.message;
-      console.log(stockData);
+      // console.log(stockData);
       const monthNames = [
         "January",
         "February",

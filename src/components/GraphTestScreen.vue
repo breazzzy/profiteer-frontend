@@ -10,7 +10,7 @@
   </div>
 
   <div>
-    <d3BubbleInfo></d3BubbleInfo>
+    <d3BubbleInfo :svgWidth="1000" :svgHeight="1000"></d3BubbleInfo>
   </div>
 </template>
 
