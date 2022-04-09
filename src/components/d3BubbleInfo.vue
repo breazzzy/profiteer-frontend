@@ -109,7 +109,7 @@ export default {
       leaf
         .append("circle")
         .attr("stroke", "black")
-        .attr("stroke-width", 2)
+        .attr("stroke-width", 0)
         .attr("stroke-opacity", 0.5)
         .attr("opacity", 0.5)
         .style(
