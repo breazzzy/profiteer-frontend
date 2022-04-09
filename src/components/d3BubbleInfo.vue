@@ -1,6 +1,7 @@
 <template>
   <p>Helo</p>
   <body id="bubbleBody">
+    <button @click="update">Update</button>
     <svg id="idForBubble" ref="svgRef"></svg>
   </body>
 </template>
@@ -29,28 +30,59 @@ export default {
     },
   },
   methods: {
+    async update() {
+      //Buy Data
+      const buy_data = this.get_buydata;
+      var merged_buydata = [];
+      buy_data.data.forEach((item) => {
+        const notYetAdded =
+          merged_buydata.filter((e) => e.stockTicker === item.stockTicker)
+            .length == 0;
+        if (notYetAdded) {
+          merged_buydata.push({
+            stockTicker: item.stockTicker,
+            amountBought: item.amountBought,
+            value: item.amountBought * item.priceAtBuy,
+          });
+        } else {
+          const itemToEdit = merged_buydata.find(
+            (e) => e.stockTicker === item.stockTicker
+          );
+          itemToEdit.amountBought += item.amountBought;
+          itemToEdit.value += item.amountBought * item.priceAtBuy;
+        }
+      });
+
+      const V = d3.map(merged_buydata, (d) => d.value);
+      const I = d3.range(V.length).filter((i) => V[i] > 0);
+
+      const svg = d3.select("#idForBubble");
+      const current_data = d3.select("#idForBubble").select("a").data();
+
+      const root = d3.pack().size([this.svgWidth, this.svgHeight]).padding(5)(
+        d3.hierarchy({ children: I }).sum((i) => V[i])
+      );
+      console.log(root.leaves());
+      //Get leaves
+      const leaf = svg.selectAll("a").data(root.leaves());
+      //Animate new radius
+      leaf
+        .select("circle")
+        .transition()
+        .attr("r", (d) => d.r)
+        .duration(3000);
+      //Animate new position
+      leaf
+        .transition()
+        .attr("transform", (d) => `translate(${d.x},${d.y})`)
+        .duration(3000);
+    },
     async draw() {
       if (d3.select("#idForBubble")) {
         d3.select("#idForBubble").remove();
         d3.select("#bubbleToolTip").remove();
       }
       d3.select("#bubbleBody").append("svg").attr("id", "idForBubble");
-      const data = [
-        { id: "abc", value: 20 },
-        { id: "bbc", value: 10 },
-        { id: "abc", value: 20 },
-        { id: "bbc", value: 10 },
-        { id: "bbc", value: 50 },
-        { id: "bbc", value: 22 },
-        { id: "bbc", value: 13 },
-        { id: "bbc", value: 1 },
-        { id: "abc", value: 20 },
-        { id: "bbc", value: 10 },
-        { id: "bbc", value: 50 },
-        { id: "bbc", value: 22 },
-        { id: "bbc", value: 13 },
-        { id: "bbc", value: 1 },
-      ];
 
       //Get data
       //   const buy_data = store.state.buy_data;
@@ -89,6 +121,8 @@ export default {
       const root = d3.pack().size([this.svgWidth, this.svgHeight]).padding(5)(
         d3.hierarchy({ children: I }).sum((i) => V[i])
       );
+
+      console.log(root);
 
       //Font
       svg

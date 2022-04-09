@@ -1,5 +1,6 @@
 <template>
   <div>
+    <img src="@/assets/logo_profiteer.svg" width="100" height="50" />
     <h1>Chart</h1>
     <textarea v-model="searchQuery"></textarea>
     <d3ResponsiveLineChart
@@ -18,11 +19,13 @@
 import d3ResponsiveLineChart from "./d3ResponsiveLineChart.vue";
 import d3BubbleInfo from "./d3BubbleInfo.vue";
 import HistoricalService from "@/services/HistoricalService.js";
+// import LogoSVG from "../assets/logo_profiteer.svg";
 
 export default {
   components: {
     d3ResponsiveLineChart,
     d3BubbleInfo,
+    // LogoSVG,
   },
 
   data() {

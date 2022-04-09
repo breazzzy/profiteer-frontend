@@ -16,7 +16,9 @@ const store = UserStore();
     <div
       class="d-flex p-0 col-12 col-md-1 col-lg-1 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between"
     >
-      <a class="navbar-brand" href="#"> profiteer </a>
+      <a class="navbar-brand" href="#">
+        <img src="@/assets/logo_profiteer.svg" width="150" height="50" />
+      </a>
     </div>
     <div class="col-12 col-md-4 col-lg-2">
       <input
