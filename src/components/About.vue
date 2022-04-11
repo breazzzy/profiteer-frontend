@@ -1,5 +1,32 @@
 <template>
-  <p>About</p>
+  <div id="about">
+    <h1>About</h1>
+    <p>This website was created as a capstone project for my associates.</p>
+    <p>Front end uses Vue.js, D3.js, Axios, Bootstrap, Popper and Pinia</p>
+    <p>Back end written in Node.js</p>
+    <div class="container">
+      <div class="row">
+        <div class="col-1" style="vertical-align: middle">
+          <i class="bi bi-github" style="font-size: 64px"></i>
+          <!-- <a> <img src="@/assets/mark-github.svg" width="100" height="50" /></a> -->
+        </div>
+        <div class="col-5" id="labelForGit">
+          <span style="font-size: 24px">Github <br /> </span
+          ><span id="" style="font-size: 10px"
+            ><a href="https://github.com/breazzzy/profiteer-frontend"
+              >Frontend</a
+            >&emsp;&emsp;
+            <a id="" href="https://github.com/breazzzy/profiteer-backend"
+              >Backend</a
+            ></span
+          >
+        </div>
+        <div class="col-6">
+          <i class="bi bi-linkedin" style="font-size: 64px"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -9,25 +36,28 @@ export default {
 </script>
 
 <style scoped>
-p {
+#about {
   margin: auto;
-  width: 50%;
-  border: 3px solid green;
-  padding: 10px;
+  top: 30%;
+  left: 35%;
+  position: fixed;
 }
-
-.avatar {
+i {
   vertical-align: middle;
+}
+#labelForGit {
+  vertical-align: middle;
+  line-height: 20px;
   margin: auto;
-  width: 50%;
-  border: 3px solid green;
+  padding: 20px;
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New";
+}
+p,
+h1,
+span {
+  /* border: 3px solid green; */
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
   padding: 10px;
-  width: 50%;
-  height: 50%;
-  border-radius: 50%;
-  user-select: none;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 48px;
-  box-shadow: inset -1px -1px 0 rgba(0, 0, 0, 0.1);
 }
 </style>
