@@ -87,12 +87,12 @@ export default {
       const dot_radi =
         this.selectedMonth == 3 ? 4 : this.selectedMonth == 6 ? 2.5 : 2;
       const height = 500;
-      const width = 1000;
-      d3.select("#chartBody")
-        .append("svg")
-        .attr("id", "idForRef")
-        .attr("width", width)
-        .attr("height", height);
+      //Sets width to the width of parent - margin
+      const width =
+        d3.select("#chartBody").node().parentNode.offsetWidth - MARGINS.left;
+      const svg = d3.select("#chartBody").append("svg");
+      // console.log(d3.select("#chartBody").node().parentNode.offsetWidth);
+      svg.attr("id", "idForRef").attr("width", width).attr("height", height);
 
       //Get current date
       const today = new Date();

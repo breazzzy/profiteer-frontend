@@ -26,6 +26,7 @@ export default {
       ANALYST_RATING: null,
       OPEN: null,
       NAME: null,
+      STOCK_DESC: "",
     };
   },
   methods: {
@@ -86,7 +87,6 @@ export default {
         this.SYMBOL,
         today.toISOString().substring(0, 10)
       );
-      console.log(data);
       this.OPEN = data.data.message[data.data.message.length - 1].open;
       this.VOLUME = data.data.message[data.data.message.length - 1].volume;
       this.CURRENT_PRICE =
@@ -94,6 +94,10 @@ export default {
           data.data.message[data.data.message.length - 1].adjclose * 100
         ) / 100;
       this.passedData = data.data.message;
+
+      const description = await HistoricalService.getDesc(this.SYMBOL);
+      console.log(description);
+      this.STOCK_DESC = description.data.longBusinessSummary;
       this.everyThingIsReady = true;
     },
   },
@@ -152,7 +156,7 @@ export default {
           :selectedMonth="3"
         />
       </template>
-      <div>Picked: {{ picked }}</div>
+      <!-- <div>Picked: {{ picked }}</div> -->
 
       <h5 class="card-title">
         <p>Stats</p>
@@ -178,7 +182,7 @@ export default {
     <h5 class="card-header">Information</h5>
     <div class="card-body">
       <h5 class="card-title">{{ NAME }}</h5>
-      <p class="card-text">STOCK INFO</p>
+      <p class="card-text">{{ STOCK_DESC }}</p>
     </div>
   </div>
 </template>
@@ -193,6 +197,10 @@ popper {
   /* background-color: lightgray; */
   padding-bottom: 10px;
   box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-text {
+  font-size: 12px;
 }
 
 .card-title {
