@@ -57,8 +57,8 @@ const store = UserStore();
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li>
-            <a class="dropdown-item" href="#">
-              <i class="bi bi-gear-wide-connected"></i> Settings</a
+            <a class="dropdown-item" href="/about">
+              <i class="bi bi-info-square"></i> About</a
             >
           </li>
           <!-- <li><a class="dropdown-item" href="#">Messages</a></li> -->
@@ -118,7 +118,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* import for icons */
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
 .sidebar {

@@ -59,7 +59,7 @@ export const UserStore = defineStore("UserStore", () => {
   };
 
   const getUsername = () => {
-    return state.value.username.value;
+    return state.value.username;
   };
   const getWatchedData = () => {
     return state.value.watched_data;
@@ -89,6 +89,7 @@ export const UserStore = defineStore("UserStore", () => {
     setUserBalance,
     logout,
     read,
+    getUsername,
     getLoggedIn,
     setToken,
   };

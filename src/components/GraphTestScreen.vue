@@ -1,6 +1,9 @@
+// This file is used as a testing grounds for d3 stuff
+
 <template>
   <div>
     <img src="@/assets/logo_profiteer.svg" width="100" height="50" />
+    <img src="@/assets/mark-github.svg" width="100" height="50" />
     <h1>Chart</h1>
     <textarea v-model="searchQuery"></textarea>
     <d3ResponsiveLineChart

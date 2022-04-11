@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     async drawChart() {
+      //Removes previous chart dom elements
       d3.select("#idForRef").remove();
       d3.select("#tooltip").remove();
       const MARGINS = {
@@ -82,6 +83,7 @@ export default {
         bottom: 40,
         left: 20,
       };
+      // Radius of dots on line
       const dot_radi =
         this.selectedMonth == 3 ? 4 : this.selectedMonth == 6 ? 2.5 : 2;
       const height = 500;
@@ -92,7 +94,9 @@ export default {
         .attr("width", width)
         .attr("height", height);
 
+      //Get current date
       const today = new Date();
+      //Set date to however many monthds back
       today.setMonth(today.getMonth() - this.selectedMonth);
       const stockData = (
         await HistoricalService.post(
@@ -101,6 +105,7 @@ export default {
         )
       ).data.message;
       // console.log(stockData);
+      // Month names
       const monthNames = [
         "January",
         "February",
@@ -115,6 +120,7 @@ export default {
         "November",
         "December",
       ];
+      // Scale for x Axis
       const X = d3
         .scaleTime()
         .domain([
@@ -122,11 +128,12 @@ export default {
           Date.parse(stockData[stockData.length - 1].date),
         ])
         .range([10, width - MARGINS.right]);
+      // Scale for y Axis
       const Y = d3
         .scaleLinear()
         .domain([0, d3.max(stockData, (d) => d.close)])
         .range([height - MARGINS.bottom, 10]);
-
+      //Line
       const line = d3
         .line()
         .x((d) => X(Date.parse(d.date)))
@@ -148,13 +155,6 @@ export default {
         .attr("id", "xAxis")
         .attr("transform", `translate(${MARGINS.left},470)`)
         .call(xAxis);
-      // xAxisRef.selectAll(".tick").each(function (d, i) {
-      //   if (i == 1) {
-      //     console.log(d3.select(this));
-      //     d3.select(this).append("text").text("ace");
-      //     console.log(d + " + " + i);
-      //   }
-      // });
       const everypossibleday = X.ticks(d3.timeDay.every(1));
       //Build rectangular boxes that will highlight weekends
       d3.select("#idForRef")
@@ -247,23 +247,6 @@ export default {
           .duration(1000);
         this.pageLoadedAllready = true;
       }
-      // console.log(path.getTotalLength());
-    },
-    animate() {
-      console.log("animate");
-      console.log("next tick");
-
-      // const reveal = (path) => {
-      //   path
-      //     .transition()
-      //     .duration(7500)
-      //     .ease(d3.easeLinear)
-      //     .attrTween("stroke-dasharray", function () {
-      //       const length = this.getTotalLength();
-      //       return d3.interpolate(`0,${length}`, `${length},${length}`);
-      //     });
-      // };
-      // d3.selectAll("path").call(reveal);
     },
   },
 };

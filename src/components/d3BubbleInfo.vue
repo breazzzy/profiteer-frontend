@@ -117,12 +117,11 @@ export default {
       const svg = d3.select("#idForBubble");
       //Set width and height
       svg.attr("width", this.svgWidth).attr("height", this.svgHeight);
-
+      // d3 Pack is a function that creates circles that can be packed into our selected width and height
+      // Specifically it reurns x,y and radius
       const root = d3.pack().size([this.svgWidth, this.svgHeight]).padding(5)(
         d3.hierarchy({ children: I }).sum((i) => V[i])
       );
-
-      console.log(root);
 
       //Font
       svg
@@ -131,7 +130,7 @@ export default {
         .attr("font-size", 10)
         .attr("font-family", "sans-serif")
         .attr("text-anchor", "middle");
-
+      // Creates 'leaves' that are each bubble
       const leaf = svg
         .selectAll("a")
         .data(root.leaves())
@@ -139,7 +138,7 @@ export default {
         .attr("xlink:href", (d, i) => null)
         .attr("target", "_blank")
         .attr("transform", (d) => `translate(${d.x},${d.y})`);
-
+      //Adds circles to each leaf
       leaf
         .append("circle")
         .attr("stroke", "black")
@@ -157,16 +156,15 @@ export default {
         )
         .attr("r", (d) => d.r);
 
+      //For clip path
       const uid = `O-${Math.random().toString(16).slice(2)}`;
-
+      //Adds clip path
       leaf
         .append("clipPath")
         .attr("id", (d) => `${uid}-clip-${d.data}`)
         .append("circle")
         .attr("r", (d) => d.r);
-
-      // leaf.append("title").text((d) => d.id);
-
+      //Adds Text
       leaf
         .append("text")
         .attr(
@@ -189,6 +187,7 @@ export default {
         .attr("class", "tooltip")
         .attr("style", "position: absolute; opacity: 0;");
 
+      //Mouse over functions for tooltip
       d3.select("#bubbleBody")
         .selectAll("circle")
         .on("mouseover", function (event, d) {
@@ -212,6 +211,7 @@ export default {
         .on("mouseout", function (event, d) {
           toolTip.transition().duration(500).style("opacity", 0);
         });
+      //Animate
       const node = d3
         .select("#bubbleBody")
         .selectAll("circle")
@@ -227,40 +227,6 @@ export default {
         .transition()
         .attr("r", (d) => d.r)
         .duration(500);
-
-      //   svg
-      //     .selectAll("text")
-      //     .data(data)
-      //     .enter()
-      //     .append("text")
-      //     .attr("x", function (d) {
-      //       return 4 + Math.PI;
-      //     })
-      //     .attr("y", function (d) {
-      //       return 5 + 4;
-      //     })
-      //     .text(function (d) {
-      //       return d.source;
-      //     })
-      //     .style("font-family", "arial")
-      //     .style("font-size", "12px");
-      //   svg
-      //     .selectAll("circle")
-      //     .data(data)
-      //     .enter()
-      //     .append("circle")
-      //     .attr("cx", function (d) {
-      //       return 20 + Math.random() * 500;
-      //     })
-      //     .attr("cy", function (d) {
-      //       return 20;
-      //     })
-      //     .attr("r", function (d) {
-      //       return d.value;
-      //     })
-      //     .attr("fill", function (d) {
-      //       return d.color;
-      //     });
     },
   },
 };
@@ -271,11 +237,6 @@ text {
   font-size: 10px;
   clip-path: 40%;
 }
-/* #bubbleToolTip {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  font-weight: bolder;
-} */
 
 #bubbleToolTip {
   position: absolute;

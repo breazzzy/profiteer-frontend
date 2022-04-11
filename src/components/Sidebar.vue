@@ -16,6 +16,13 @@ const store = UserStore();
       <p id="username">
         <b>{{ store.state.username }}</b>
       </p>
+      <!-- <div
+        class="rounded-circle border d-flex justify-content-center align-items-center avatar"
+        style="width: 100px; height: 100px"
+        alt="Avatar"
+      >
+        <b>{{ store.getUsername }}</b>
+      </div> -->
 
       <p id="balance">
         <b>Balance: ${{ Math.round(store.state.balance * 100) / 100 }}</b>
@@ -193,5 +200,23 @@ export default {
     position: sticky;
     z-index: 999;
   }
+}
+
+.avatar {
+  vertical-align: middle;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 50%;
+  background-color: rgba(13, 107, 189, 0.164);
+  padding: 10px;
+
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  user-select: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 48px;
+  box-shadow: inset -1px -1px 0 rgba(0, 0, 0, 0.1);
 }
 </style>

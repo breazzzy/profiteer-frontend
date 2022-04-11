@@ -15,7 +15,7 @@ export default {
 
   setup(props) {
     // const data = ref(props.passedData);
-    const data = []
+    const data = [];
     const direction = ref("horizontal");
     const margin = ref({
       left: 0,

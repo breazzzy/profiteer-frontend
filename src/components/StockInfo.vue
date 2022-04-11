@@ -114,17 +114,9 @@ export default {
 <template>
   <div class="card">
     <h5 class="card-header d-flex p-0">
-      <div class="col-9">
+      <div class="col-10">
         <b>{{ SYMBOL }}: </b>{{ CURRENT_PRICE }}
       </div>
-      <!-- <button
-        v-if="store.loggedin"
-        class="btn btn-danger btn-sm col-1"
-        @click="addToBuy()"
-      >
-        Buy
-      </button> -->
-      <!--  -->
       <Popper
         class=""
         v-if="store.state.loggedin"
@@ -143,13 +135,8 @@ export default {
             />
             <button class="btn btn-primary" @click="addToBuy()">Confirm</button>
           </div>
-        </template>
-      </Popper>
-      <!--  -->
-      <button v-if="store.state.loggedin" class="btn btn-success btn-sm col-1">
-        Sell
-      </button>
-      <button
+        </template> </Popper
+      ><button
         v-if="store.state.loggedin"
         class="btn btn-warning btn-sm col-1"
         @click="addToWatch()"
@@ -159,9 +146,6 @@ export default {
     </h5>
 
     <div class="card-body">
-      <!-- <template v-if="everyThingIsReady"
-        ><pLineChart :passedData="passedData"
-      /></template> -->
       <template v-if="everyThingIsReady">
         <d3ResponsiveLineChart
           :searchQuery="this.searchQuery"
@@ -182,10 +166,7 @@ export default {
 
           <div class="row">
             <div class="col">Market Cap: {{ MARKET_CAP }}</div>
-            <div class="col">
-              Analyst Rating: {{ ANALYST_RATING
-              }}<!--averageAnalystRating-->
-            </div>
+            <div class="col">Analyst Rating: {{ ANALYST_RATING }}</div>
 
             <div class="col">Average Volume: {{ AVERAGE_VOLUME }}</div>
           </div>
