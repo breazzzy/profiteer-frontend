@@ -1,5 +1,4 @@
 <template>
-  <p>Helo</p>
   <body id="bubbleBody">
     <svg id="idForBubble" ref="svgRef"></svg>
   </body>
