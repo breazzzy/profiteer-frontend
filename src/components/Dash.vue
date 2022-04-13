@@ -19,7 +19,7 @@ const store = UserStore();
         <img src="@/assets/logo_profiteer.svg" width="150" height="50" />
       </a>
     </div>
-    <div class="col-12 col-md-4 col-lg-2">
+    <div class="col-12 col-md-4 col-lg-2" id="searchBar">
       <input
         class="form-control form-control-dark"
         type="text"
@@ -135,11 +135,19 @@ export default {
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
+.navbar-brand{
+  padding-right: 20px;
+}
+
 @media (min-width: 767.98px) {
   .navbar {
     top: 0;
     position: sticky;
     z-index: 999;
   }
+}
+
+#searchBar{
+  padding-left: 40px;
 }
 </style>

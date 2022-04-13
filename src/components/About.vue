@@ -1,6 +1,8 @@
 <template>
   <div id="about">
-    <h1>About</h1>
+    <h1>About
+      <img src="@/assets/logo_profiteer.svg" width="150" height="50" />
+    </h1>
     <p>This website was created as a capstone project for my associates.</p>
     <p>Front end uses Vue.js, D3.js, Axios, Bootstrap, Popper and Pinia</p>
     <p>Back end written in Node.js</p>
@@ -47,6 +49,17 @@ export default {
 i {
   vertical-align: middle;
 }
+
+h1{
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+}
+
+img{
+  display: block;
+  float: right;
+}
+
 #labelForGit {
   vertical-align: middle;
   line-height: 20px;
@@ -55,7 +68,6 @@ i {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New";
 }
 p,
-h1,
 span {
   /* border: 3px solid green; */
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
