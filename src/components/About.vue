@@ -37,10 +37,12 @@ export default {
 
 <style scoped>
 #about {
-  margin: auto;
-  top: 30%;
-  left: 35%;
   position: fixed;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%,-50%);
 }
 i {
   vertical-align: middle;
