@@ -1,5 +1,4 @@
 <script setup>
-import pLineChart from "./pLineChart.vue";
 import d3ResponsiveLineChart from "./d3ResponsiveLineChart.vue";
 import InfoService from "@/services/InfoService.js";
 import HistoricalService from "@/services/HistoricalService.js";
@@ -26,7 +25,14 @@ export default {
       ANALYST_RATING: null,
       OPEN: null,
       NAME: null,
-      STOCK_DESC: "",
+      STOCK_LONG_DESC: "",
+      STOCK_CONTACT_ADRESS: "",
+      STOCK_CONTACT_URL: "",
+      STOCK_CONTACT_PHONE: "",
+      STOCK_ADDRESS_UNDEFINED: undefined,
+      STOCK_EMPLOYEES: 0,
+      STOCK_INDUSTRY: "",
+      COMPANY_OFFICERS: [],
     };
   },
   methods: {
@@ -38,7 +44,6 @@ export default {
           username: store.state.username,
           stockTicker: this.SYMBOL,
         });
-        console.log(res);
         store.read();
       } catch (error) {
         alert(error);
@@ -71,7 +76,6 @@ export default {
     //Function for reading data into the chart and stats on screen
     async readData() {
       const result = await InfoService.post(this.searchQuery);
-      // console.log(result.data.message);
       this.NAME = result.data.message.longName;
       this.SYMBOL = result.data.message.symbol;
       this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
@@ -82,7 +86,6 @@ export default {
 
       const today = new Date();
       today.setMonth(today.getMonth() - 1);
-      console.log(today.toISOString());
       const data = await HistoricalService.post(
         this.SYMBOL,
         today.toISOString().substring(0, 10)
@@ -96,9 +99,15 @@ export default {
       this.passedData = data.data.message;
 
       const description = await HistoricalService.getDesc(this.SYMBOL);
-      console.log(description);
-      this.STOCK_DESC = description.data;
+      this.STOCK_LONG_DESC = description.data.longBusinessSummary;
       this.everyThingIsReady = true;
+      this.STOCK_CONTACT_ADRESS = description.data.address1 + ", " + description.data.city + ", " + description.data.state + ", " + description.data.country + " " + description.data.zip;
+      this.STOCK_ADDRESS_UNDEFINED = description.data.address1;
+      this.STOCK_CONTACT_PHONE = description.data.phone;
+      this.STOCK_CONTACT_URL = description.data.website;
+      this.STOCK_INDUSTRY = description.data.industry;
+      this.STOCK_EMPLOYEES = description.data.fullTimeEmployees;
+      this.COMPANY_OFFICERS = description.data.companyOfficers;
     },
   },
   async setup() {},
@@ -182,7 +191,34 @@ export default {
     <h5 class="card-header">Information</h5>
     <div class="card-body">
       <h5 class="card-title">{{ NAME }}</h5>
-      <p class="card-text">{{ STOCK_DESC }}</p>
+      <div>
+        <p class="card-text">{{ STOCK_LONG_DESC }}
+        </p>
+        <details>
+        <summary>More Info.</summary>
+        <div id="summaryDetails">
+          <p>&emsp;Industry: {{STOCK_INDUSTRY}}</p>
+          <p>&emsp;Employees: {{STOCK_EMPLOYEES}}</p>
+          
+          <div id="summaryDetails" style="margin-left: 10px;">
+            <details>
+              <summary>Company Officers</summary>
+              <div id="summaryDetails" v-for="officer in COMPANY_OFFICERS" :key="officer.name">
+               <p>&emsp; {{officer.name + ", " + officer.title}}</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </details>
+      </div>
+      
+      
+      <h5 class="card-title">Contact</h5>
+      <div id='contactBody' >
+        <span v-if="this.STOCK_ADDRESS_UNDEFINED !== undefined" id="contactSpan" class="card-text">{{ STOCK_CONTACT_ADRESS }}<br /></span>
+        <span v-if="this.STOCK_CONTACT_PHONE !== 'NA'" id="contactSpan" class="card-text">{{ STOCK_CONTACT_PHONE }}<br /> </span>
+        <span v-if="this.STOCK_CONTACT_URL !== undefined" id="contactSpan" class="card-text" ><a :href='STOCK_CONTACT_URL' target="_blank">{{ STOCK_CONTACT_URL }}</a><br /></span>
+      </div>
     </div>
   </div>
 </template>
@@ -193,6 +229,29 @@ popper {
   margin-right: 0px;
   font-size: 1px;
 }
+
+#contactBody{
+  line-height: 25px;
+}
+#summaryDetails{
+  line-height: 1px;
+}
+summary{
+  font-size: 12px;
+  font-style: oblique;
+  
+}
+details{
+  font-size: 12px;
+  line-height: 40px;
+}
+
+#contactSpan{
+  font-size: 12px;
+  line-height: 1px;
+  font-style: italic;
+}
+
 .card {
   /* background-color: lightgray; */
   padding-bottom: 10px;
@@ -217,11 +276,12 @@ popper {
 
 .row {
   /* background-color: red; */
-  outline: 2px dotted rgba(0, 0, 0, 0.25);
+  /* outline: 2px dotted rgba(0, 0, 0, 0.25); */
 }
 
 .col {
   /* background-color: red; */
   outline: 1px dotted rgba(0, 0, 0, 0.25);
+  font-style: oblique;
 }
 </style>

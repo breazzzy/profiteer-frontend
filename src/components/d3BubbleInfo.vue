@@ -11,20 +11,18 @@ import { matchedRouteKey } from "vue-router";
 import { UserStore } from "@/stores/UserStore";
 export default {
   props: ["svgWidth", "svgHeight"],
-  data() {},
+  // data() {},
   async mounted() {
     this.draw();
   },
   computed: {
     get_buydata() {
       const store = UserStore();
-      console.log("Gang shit");
       return store.state.buy_data;
     },
   },
   watch: {
     get_buydata() {
-      console.log("Store watched");
       this.draw();
     },
   },
@@ -59,13 +57,11 @@ export default {
       const width =
         d3.select("#idForBubble").node().parentNode.offsetWidth - 10;
         svg.attr('width',width);
-      console.log(width)
       const current_data = d3.select("#idForBubble").select("a").data();
 
       const root = d3.pack().size([this.svgWidth, this.svgHeight]).padding(5)(
         d3.hierarchy({ children: I }).sum((i) => V[i])
       );
-      console.log(root.leaves());
       //Get leaves
       const leaf = svg.selectAll("a").data(root.leaves());
       //Animate new radius
@@ -121,7 +117,6 @@ export default {
       //Set width and height
       const width =
         d3.select("#idForBubble").node().parentNode.offsetWidth - 10;
-      console.log(width);
       svg.attr("width", width).attr("height", this.svgHeight);
       // d3 Pack is a function that creates circles that can be packed into our selected width and height
       // Specifically it reurns x,y and radius

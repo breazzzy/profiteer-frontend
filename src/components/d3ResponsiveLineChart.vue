@@ -57,18 +57,15 @@ export default {
     return { pageLoadedAllready: false };
   },
   async mounted() {
-    console.log("Mounted Chart");
 
     this.drawChart();
   },
   setup() {},
   watch: {
     selectedMonth() {
-      console.log(this.selectedMonth);
       this.drawChart();
     },
     searchQuery() {
-      console.log(this.searchQuery);
       this.drawChart();
     },
   },

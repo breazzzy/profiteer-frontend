@@ -42,7 +42,7 @@ const store = UserStore();
       >
         <div class="row">
           <span class="col-1"> {{ stock.amountBought }} &nbsp; </span>
-          <span class="col-4">{{ stock.stockTicker }} @</span>
+          <span class="col-4" v-on:click="set_search_symbol(stock.stockTicker)">{{ stock.stockTicker }} @</span>
           <span class="col-4"> ${{ stock.priceAtBuy }}</span>
 
           <Popper class="col-3" placement="top" arrow>
