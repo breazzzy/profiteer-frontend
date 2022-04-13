@@ -1,7 +1,6 @@
 <template>
   <p>Helo</p>
   <body id="bubbleBody">
-    <button @click="update">Update</button>
     <svg id="idForBubble" ref="svgRef"></svg>
   </body>
 </template>
@@ -57,6 +56,10 @@ export default {
       const I = d3.range(V.length).filter((i) => V[i] > 0);
 
       const svg = d3.select("#idForBubble");
+      const width =
+        d3.select("#idForBubble").node().parentNode.offsetWidth - 10;
+        svg.attr('width',width);
+      console.log(width)
       const current_data = d3.select("#idForBubble").select("a").data();
 
       const root = d3.pack().size([this.svgWidth, this.svgHeight]).padding(5)(
@@ -116,10 +119,13 @@ export default {
       //Get svg component
       const svg = d3.select("#idForBubble");
       //Set width and height
-      svg.attr("width", this.svgWidth).attr("height", this.svgHeight);
+      const width =
+        d3.select("#idForBubble").node().parentNode.offsetWidth - 10;
+      console.log(width);
+      svg.attr("width", width).attr("height", this.svgHeight);
       // d3 Pack is a function that creates circles that can be packed into our selected width and height
       // Specifically it reurns x,y and radius
-      const root = d3.pack().size([this.svgWidth, this.svgHeight]).padding(5)(
+      const root = d3.pack().size([width, this.svgHeight]).padding(5)(
         d3.hierarchy({ children: I }).sum((i) => V[i])
       );
 

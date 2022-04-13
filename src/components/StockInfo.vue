@@ -97,7 +97,7 @@ export default {
 
       const description = await HistoricalService.getDesc(this.SYMBOL);
       console.log(description);
-      this.STOCK_DESC = description.data.longBusinessSummary;
+      this.STOCK_DESC = description.data;
       this.everyThingIsReady = true;
     },
   },

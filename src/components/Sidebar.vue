@@ -41,12 +41,12 @@ const store = UserStore();
         :key="stock.id"
       >
         <div class="row">
-          <span class="col-2"> {{ stock.amountBought }} </span>
+          <span class="col-1"> {{ stock.amountBought }} &nbsp; </span>
           <span class="col-4">{{ stock.stockTicker }} @</span>
-          <span class="col-3"> ${{ stock.priceAtBuy }}</span>
+          <span class="col-4"> ${{ stock.priceAtBuy }}</span>
 
           <Popper class="col-3" placement="top" arrow>
-            <button class="btn btn-success btn-sm">
+            <button id='sellButton' class="btn btn-success btn-sm">
               <i class="bi bi-currency-dollar"></i>
             </button>
             <template #content id="salePopper">
@@ -185,6 +185,16 @@ export default {
 .row {
   /* text-align: left; */
   border-bottom: 1px solid grey;
+}
+
+#sellButton{
+  padding-left: 5px;
+  padding: 5px;
+}
+span{
+  /* padding: ; */
+
+  font-size: 12px;
 }
 
 :root {
