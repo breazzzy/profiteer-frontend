@@ -1,5 +1,4 @@
 <script setup>
-import pLineChart from "./pLineChart.vue";
 import StockInfo from "./StockInfo.vue";
 import BuySellService from "@/services/BuySellService.js";
 import { UserStore } from "@/stores/UserStore";

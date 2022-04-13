@@ -274,11 +274,6 @@ details{
   /* box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1); */
 }
 
-.row {
-  /* background-color: red; */
-  /* outline: 2px dotted rgba(0, 0, 0, 0.25); */
-}
-
 .col {
   /* background-color: red; */
   outline: 1px dotted rgba(0, 0, 0, 0.25);
