@@ -1,6 +1,7 @@
 import API from "@/services/API";
 
 export default {
+  //Api calls for stock historical data
   post(symbol, period) {
     return API().post("stock_info_chart", { sym: symbol, period: period });
   },

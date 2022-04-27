@@ -1,6 +1,7 @@
 import API from "@/services/API";
 
 export default {
+  //All api routes relating to buy/sell and watch data
   addToWatch(creds) {
     return API().post("watch", { data: creds });
   },

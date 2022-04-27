@@ -144,7 +144,7 @@ export default {
               class="form-control"
               v-model="amountToBuy"
               id="usernameinput"
-              placeholder="Amount $$$"
+              placeholder="Amount in Shares"
             />
             <button class="btn btn-primary" @click="addToBuy()">Confirm</button>
           </div>

@@ -54,8 +54,10 @@ export default {
           username: this.username,
           password: this.password,
         });
+        //This brings user back to main screen
         this.$router.push("/");
         const store = UserStore();
+        //Stores login information
         store.setUsername(response.data.user.username);
         store.setToken(response.data.token);
         store.setLoggedin(true);

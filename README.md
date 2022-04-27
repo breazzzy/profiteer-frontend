@@ -17,8 +17,13 @@ Backend -> *https://github.com/breazzzy/profiteer-backend*
 
 ## Packages used
 
-Vue.js, Axios.js, d3.js, pinia.js and bootstrap. I also used vue3-popper for popups.
-Use JWT for logins.
+- Vue.js - Framework.
+- - vue-router - For routing
+- - vue3-popper - Vue implementation of Popper.js, button popups essentially.
+- Axios.js - Used to communicate to backend
+- d3.js - Library used to create charts and animation
+- pinia.js - Library used for 'store' comparable to redux for react.
+- bootstrap - Used for css.
 
 ## Project Setup
 

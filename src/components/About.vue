@@ -1,4 +1,5 @@
 <template>
+<!-- simple about page -->
   <div id="about">
     <h1>About
       <img src="@/assets/logo_profiteer.svg" width="150" height="50" />

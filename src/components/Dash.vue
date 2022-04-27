@@ -8,18 +8,19 @@ const store = UserStore();
 
 <template>
   <!-- boostrap -->
+  <!-- uses the bootstrap col and row syntax extensivly -->
   <nav
     class="navbar navbar-light bg-light p-3 position-sticky"
     style="background-color: #e3f2fd"
   >
     <div
-      class="d-flex p-0 col-12 col-md-1 col-lg-1 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between"
+      class="d-flex col-md-1 col-lg-1 flex-wrap flex-md-nowrap justify-content-between"
     >
       <a class="navbar-brand" href="#">
         <img src="@/assets/logo_profiteer.svg" width="150" height="50" />
       </a>
     </div>
-    <div class="col-12 col-md-4 col-lg-2" id="searchBar">
+    <div class="col-md-4 col-lg-2" id="searchBar">
       <input
         class="form-control form-control-dark"
         type="text"
@@ -33,7 +34,7 @@ const store = UserStore();
       <i class="bi bi-search"> Search</i>
     </button>
     <div
-      class="col-12 col-md-5 col-lg-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0"
+      class="col-md-5 col-lg-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0"
     >
       <div class="mr-3 mt-1">
         <a
@@ -80,16 +81,15 @@ const store = UserStore();
   <div class="container-fluid">
     <div class="row">
       <!-- Stock Info -->
-      <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+      <div id='viewArea' class="col-md-9 ml-auto col-lg-10">
         <h1 class="h2">
-          <!-- watch_data is a prop that passes in the current logged in users watched stocks -->
           <Sidebar
             :searchQuery="searchQuery"
             @updateSearchedSymbol="searchQuery = $event"
           />
           <StockInfo ref="stockView" :searchQuery="searchQuery" />
         </h1>
-      </main>
+      </div>
     </div>
   </div>
 </template>
@@ -118,7 +118,7 @@ export default {
 </script>
 
 <style scoped>
-/* import for icons */
+/* import for icons  */
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
 .sidebar {
   position: fixed;

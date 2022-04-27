@@ -1,7 +1,6 @@
 import * as Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import * as d3 from "d3";
 import { createPinia } from "pinia";
 import Popper from "vue3-popper";
 // import piniaPluginPersistedstate from "pinia-plugin-persistedstate";

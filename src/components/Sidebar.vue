@@ -15,6 +15,7 @@ const store = UserStore();
       <p id="username">
         <b>{{ store.state.username }}</b>
       </p>
+      <!-- Attempt to add avatar bubbles, dosnt work well currently and I honestly think it looks fine as is -->
       <!-- <div
         class="rounded-circle border d-flex justify-content-center align-items-center avatar"
         style="width: 100px; height: 100px"
@@ -137,13 +138,7 @@ export default {
       );
     },
   },
-  async mounted() {
-    // const store = UserStore();
-    // const res = await BuySellService.getWatches(store.getUsername);
-    // console.log(res.data);
-    // this.watchStocks = store.getWatchedData();
-    // console.log("b");
-  },
+  async mounted() {},
   setup(stock) {
     alert(stock.stockTicker);
   },

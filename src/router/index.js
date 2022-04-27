@@ -4,6 +4,7 @@ import Register from "@/components/Register.vue";
 import ChartTest from "@/components/GraphTestScreen.vue";
 import About from "@/components/About.vue";
 // Router
+// these are all the possible extensions the website has.
 const routes = [
   {
     path: "/",

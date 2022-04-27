@@ -5,6 +5,9 @@ import AuthenticationService from "@/services/AuthenticationService";
 // store.setUserBalance(response.data.user.balance);
 
 //Store that holds login information and more
+// Uses pinia, if your familiar with redux for react its comparable
+// This holds all the data that needs to be known throughout the website
+// Basically holds user data and token for authentication
 export const UserStore = defineStore("UserStore", () => {
   const state = ref({
     username: null,
@@ -15,6 +18,7 @@ export const UserStore = defineStore("UserStore", () => {
     balance: 0,
   });
 
+  //This saves the login information on the users local system
   if (localStorage.getItem("profiteerState")) {
     state.value = JSON.parse(localStorage.getItem("profiteerState"));
     console.log("Previous state loaded");
@@ -25,7 +29,7 @@ export const UserStore = defineStore("UserStore", () => {
       localStorage.setItem("profiteerState", JSON.stringify(stateVal));
       console.log("State saved");
     },
-    { deep: true }
+    { deep: true }//Pulled from documentation from what im aware this makes sure it saves 'everything'
   );
 
   const reset = () => {
@@ -94,6 +98,10 @@ export const UserStore = defineStore("UserStore", () => {
     setToken,
   };
 });
+
+//I wrote this code twice the first time was with the code below
+// Getting this code to be reactive was tough and from what i saw online the
+// composition paradigm is prefered almost unanimously.
 
 // export const UserStore = defineStore({
 //   id: "UserStore",

@@ -1,4 +1,5 @@
 // This file is used as a testing grounds for d3 stuff
+// to acess go to /testchart
 
 <template>
   <div>

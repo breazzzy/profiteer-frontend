@@ -27,53 +27,17 @@ export default {
   },
   methods: {
     async update() {
-      //Buy Data
-      const buy_data = this.get_buydata;
-      var merged_buydata = [];
-      buy_data.data.forEach((item) => {
-        const notYetAdded =
-          merged_buydata.filter((e) => e.stockTicker === item.stockTicker)
-            .length == 0;
-        if (notYetAdded) {
-          merged_buydata.push({
-            stockTicker: item.stockTicker,
-            amountBought: item.amountBought,
-            value: item.amountBought * item.priceAtBuy,
-          });
-        } else {
-          const itemToEdit = merged_buydata.find(
-            (e) => e.stockTicker === item.stockTicker
-          );
-          itemToEdit.amountBought += item.amountBought;
-          itemToEdit.value += item.amountBought * item.priceAtBuy;
-        }
-      });
-
-      const V = d3.map(merged_buydata, (d) => d.value);
-      const I = d3.range(V.length).filter((i) => V[i] > 0);
-
-      const svg = d3.select("#idForBubble");
-      const width =
-        d3.select("#idForBubble").node().parentNode.offsetWidth - 10;
-        svg.attr('width',width);
-      const current_data = d3.select("#idForBubble").select("a").data();
-
-      const root = d3.pack().size([this.svgWidth, this.svgHeight]).padding(5)(
-        d3.hierarchy({ children: I }).sum((i) => V[i])
-      );
-      //Get leaves
-      const leaf = svg.selectAll("a").data(root.leaves());
-      //Animate new radius
-      leaf
-        .select("circle")
-        .transition()
-        .attr("r", (d) => d.r)
-        .duration(3000);
-      //Animate new position
-      leaf
-        .transition()
-        .attr("transform", (d) => `translate(${d.x},${d.y})`)
-        .duration(3000);
+      //Go to git commits to find old function
+      //Originally wanted chart to update in realtime instead of redrawing 
+      //The entire chart everytime the data is changed.
+      // This got really weird because of the way I import data into the bubble chart
+      // in short the only thing the bubble chart knows about the original portfolio data
+      // is an array index, if that array index changes when the data updates everthing breaks.
+      // Its easy to imagine that a new stock being bought and added to that array would
+      // break the chart.
+      // I could probably fix this be redoing how i import data to the bubbles, but I
+      // deemed it not worth it considering how long it took to get the bubbles up 
+      // in the first place.
     },
     async draw() {
       if (d3.select("#idForBubble")) {
@@ -104,7 +68,7 @@ export default {
           itemToEdit.value += item.amountBought * item.priceAtBuy;
         }
       });
-
+      // Possible colors for bubbles
       const colors = ["red", "green", "blue", "#FF4500", "purple"];
       let currentColor = 0;
 
@@ -118,7 +82,7 @@ export default {
         d3.select("#idForBubble").node().parentNode.offsetWidth - 10;
       svg.attr("width", width).attr("height", this.svgHeight);
       // d3 Pack is a function that creates circles that can be packed into our selected width and height
-      // Specifically it reurns x,y and radius
+      // Specifically it reurns an x,y and radius
       const root = d3.pack().size([width, this.svgHeight]).padding(5)(
         d3.hierarchy({ children: I }).sum((i) => V[i])
       );
@@ -130,16 +94,19 @@ export default {
         .attr("font-size", 10)
         .attr("font-family", "sans-serif")
         .attr("text-anchor", "middle");
-      // Creates 'leaves' that are each bubble
-      const leaf = svg
+      // Creates 'bubbles', these only hold data for now
+      // root.leaves returns a list of all 'leaves' essentially the x,y and radius data for
+      // each bubble
+      // to be clear leaves is what d3 calls this data
+      const bubble = svg
         .selectAll("a")
         .data(root.leaves())
         .join("a")
         .attr("xlink:href", (d, i) => null)
         .attr("target", "_blank")
         .attr("transform", (d) => `translate(${d.x},${d.y})`);
-      //Adds circles to each leaf
-      leaf
+      //Adds actual circle elements to each bubble
+      bubble
         .append("circle")
         .attr("stroke", "black")
         .attr("stroke-width", 0)
@@ -156,16 +123,16 @@ export default {
         )
         .attr("r", (d) => d.r);
 
-      //For clip path
+      //For clip path. This it taken 100% from the documentation
       const uid = `O-${Math.random().toString(16).slice(2)}`;
       //Adds clip path
-      leaf
+      bubble
         .append("clipPath")
         .attr("id", (d) => `${uid}-clip-${d.data}`)
         .append("circle")
         .attr("r", (d) => d.r);
       //Adds Text
-      leaf
+      bubble
         .append("text")
         .attr(
           "clip-path",
@@ -188,6 +155,8 @@ export default {
         .attr("style", "position: absolute; opacity: 0;");
 
       //Mouse over functions for tooltip
+      // The mouseover function makes the tooltip dom element visible.
+      // The tooltip dom element is actually always on the screen but the opacity is 0
       d3.select("#bubbleBody")
         .selectAll("circle")
         .on("mouseover", function (event, d) {
@@ -212,6 +181,8 @@ export default {
           toolTip.transition().duration(500).style("opacity", 0);
         });
       //Animate
+      //Simple animation that has the bubbles grow in size for 3 seconds and then
+      //Shrink to the real size for 1/2 a second
       const node = d3
         .select("#bubbleBody")
         .selectAll("circle")

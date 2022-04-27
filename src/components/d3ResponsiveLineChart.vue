@@ -136,7 +136,7 @@ export default {
         .x((d) => X(Date.parse(d.date)))
         .y((d) => Y(d.close))
 
-        .curve(d3.curveNatural);
+        .curve(d3.curveLinear);
       //add path attribute to svg in dom
       const path = d3
         .select("#idForRef")

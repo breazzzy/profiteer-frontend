@@ -1,6 +1,7 @@
 import API from "@/services/API";
 
 export default {
+  //These are all the api calls relating to registering
   register(credentials) {
     return API().post("register", credentials);
   },
@@ -11,8 +12,3 @@ export default {
     return API().post("balance");
   },
 };
-
-// AuthencationService.register({
-//     email:'test@gmail.com',
-//     password: 1234
-// })
