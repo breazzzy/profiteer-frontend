@@ -75,7 +75,14 @@ export default {
     },
     //Function for reading data into the chart and stats on screen
     async readData() {
-      const result = await InfoService.post(this.searchQuery);
+      let result;
+      try {
+        result = await InfoService.post(this.searchQuery);
+      } catch (e) {
+        alert("Search term not found");
+        return;
+      }
+      console.log(result);
       this.NAME = result.data.message.longName;
       this.SYMBOL = result.data.message.symbol;
       this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
@@ -101,7 +108,16 @@ export default {
       const description = await HistoricalService.getDesc(this.SYMBOL);
       this.STOCK_LONG_DESC = description.data.longBusinessSummary;
       this.everyThingIsReady = true;
-      this.STOCK_CONTACT_ADRESS = description.data.address1 + ", " + description.data.city + ", " + description.data.state + ", " + description.data.country + " " + description.data.zip;
+      this.STOCK_CONTACT_ADRESS =
+        description.data.address1 +
+        ", " +
+        description.data.city +
+        ", " +
+        description.data.state +
+        ", " +
+        description.data.country +
+        " " +
+        description.data.zip;
       this.STOCK_ADDRESS_UNDEFINED = description.data.address1;
       this.STOCK_CONTACT_PHONE = description.data.phone;
       this.STOCK_CONTACT_URL = description.data.website;
@@ -192,32 +208,52 @@ export default {
     <div class="card-body">
       <h5 class="card-title">{{ NAME }}</h5>
       <div>
-        <p class="card-text">{{ STOCK_LONG_DESC }}
-        </p>
+        <p class="card-text">{{ STOCK_LONG_DESC }}</p>
         <details>
-        <summary>More Info.</summary>
-        <div id="summaryDetails">
-          <p>&emsp;Industry: {{STOCK_INDUSTRY}}</p>
-          <p>&emsp;Employees: {{STOCK_EMPLOYEES}}</p>
-          
-          <div id="summaryDetails" style="margin-left: 10px;">
-            <details>
-              <summary>Company Officers</summary>
-              <div id="summaryDetails" v-for="officer in COMPANY_OFFICERS" :key="officer.name">
-               <p>&emsp; {{officer.name + ", " + officer.title}}</p>
-              </div>
-            </details>
+          <summary>More Info.</summary>
+          <div id="summaryDetails">
+            <p>&emsp;Industry: {{ STOCK_INDUSTRY }}</p>
+            <p>&emsp;Employees: {{ STOCK_EMPLOYEES }}</p>
+
+            <div id="summaryDetails" style="margin-left: 10px">
+              <details>
+                <summary>Company Officers</summary>
+                <div
+                  id="summaryDetails"
+                  v-for="officer in COMPANY_OFFICERS"
+                  :key="officer.name"
+                >
+                  <p>&emsp; {{ officer.name + ", " + officer.title }}</p>
+                </div>
+              </details>
+            </div>
           </div>
-        </div>
-      </details>
+        </details>
       </div>
-      
-      
+
       <h5 class="card-title">Contact</h5>
-      <div id='contactBody' >
-        <span v-if="this.STOCK_ADDRESS_UNDEFINED !== undefined" id="contactSpan" class="card-text">{{ STOCK_CONTACT_ADRESS }}<br /></span>
-        <span v-if="this.STOCK_CONTACT_PHONE !== 'NA'" id="contactSpan" class="card-text">{{ STOCK_CONTACT_PHONE }}<br /> </span>
-        <span v-if="this.STOCK_CONTACT_URL !== undefined" id="contactSpan" class="card-text" ><a :href='STOCK_CONTACT_URL' target="_blank">{{ STOCK_CONTACT_URL }}</a><br /></span>
+      <div id="contactBody">
+        <span
+          v-if="this.STOCK_ADDRESS_UNDEFINED !== undefined"
+          id="contactSpan"
+          class="card-text"
+          >{{ STOCK_CONTACT_ADRESS }}<br
+        /></span>
+        <span
+          v-if="this.STOCK_CONTACT_PHONE !== 'NA'"
+          id="contactSpan"
+          class="card-text"
+          >{{ STOCK_CONTACT_PHONE }}<br />
+        </span>
+        <span
+          v-if="this.STOCK_CONTACT_URL !== undefined"
+          id="contactSpan"
+          class="card-text"
+          ><a :href="STOCK_CONTACT_URL" target="_blank">{{
+            STOCK_CONTACT_URL
+          }}</a
+          ><br
+        /></span>
       </div>
     </div>
   </div>
@@ -230,23 +266,22 @@ popper {
   font-size: 1px;
 }
 
-#contactBody{
+#contactBody {
   line-height: 25px;
 }
-#summaryDetails{
+#summaryDetails {
   line-height: 1px;
 }
-summary{
+summary {
   font-size: 12px;
   font-style: oblique;
-  
 }
-details{
+details {
   font-size: 12px;
   line-height: 40px;
 }
 
-#contactSpan{
+#contactSpan {
   font-size: 12px;
   line-height: 1px;
   font-style: italic;
