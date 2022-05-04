@@ -82,7 +82,6 @@ export default {
         alert("Search term not found");
         return;
       }
-      console.log(result);
       this.NAME = result.data.message.longName;
       this.SYMBOL = result.data.message.symbol;
       this.FIVETWOWEEK_HIGH = result.data.message.fiftyTwoWeekHigh;
