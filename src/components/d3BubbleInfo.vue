@@ -28,7 +28,7 @@ export default {
   methods: {
     async update() {
       //Go to git commits to find old function
-      //Originally wanted chart to update in realtime instead of redrawing 
+      //Originally wanted chart to update in realtime instead of redrawing
       //The entire chart everytime the data is changed.
       // This got really weird because of the way I import data into the bubble chart
       // in short the only thing the bubble chart knows about the original portfolio data
@@ -36,10 +36,11 @@ export default {
       // Its easy to imagine that a new stock being bought and added to that array would
       // break the chart.
       // I could probably fix this be redoing how i import data to the bubbles, but I
-      // deemed it not worth it considering how long it took to get the bubbles up 
+      // deemed it not worth it considering how long it took to get the bubbles up
       // in the first place.
     },
     async draw() {
+      //Remove if allready created
       if (d3.select("#idForBubble")) {
         d3.select("#idForBubble").remove();
         d3.select("#bubbleToolTip").remove();
@@ -47,8 +48,9 @@ export default {
       d3.select("#bubbleBody").append("svg").attr("id", "idForBubble");
 
       //Get data
-      //   const buy_data = store.state.buy_data;
       const buy_data = this.get_buydata;
+      //We must merge the buy data so that buy's under the same ticker are lumped together
+      //Otherwise we would have many bubbles of the same stocks each representing a diffrent purchase of that stock
       var merged_buydata = [];
       buy_data.data.forEach((item) => {
         const notYetAdded =
@@ -68,12 +70,16 @@ export default {
           itemToEdit.value += item.amountBought * item.priceAtBuy;
         }
       });
-      // Possible colors for bubbles
+      // Possible colors for bubbles these are fixed
       const colors = ["red", "green", "blue", "#FF4500", "purple"];
       let currentColor = 0;
 
+      // V and I are taken (almost) straight out of the d3 documentation
+      //V is just an array of the values (amount in $ amount) in the merged_buydata array. We ignore the stock tickers
+      //I is the range of data. For this example it really is just an array of indexs. Its kept for future use
       const V = d3.map(merged_buydata, (d) => d.value);
       const I = d3.range(V.length).filter((i) => V[i] > 0);
+      console.log("I = " + I);
 
       //Get svg component
       const svg = d3.select("#idForBubble");
@@ -124,6 +130,7 @@ export default {
         .attr("r", (d) => d.r);
 
       //For clip path. This it taken 100% from the documentation
+      //This is used to get the text to display correctly
       const uid = `O-${Math.random().toString(16).slice(2)}`;
       //Adds clip path
       bubble
@@ -131,7 +138,8 @@ export default {
         .attr("id", (d) => `${uid}-clip-${d.data}`)
         .append("circle")
         .attr("r", (d) => d.r);
-      //Adds Text
+      //Adds Text uses uid clip path from before
+      //As said before anything regarding clip paths is taken directly from documentation
       bubble
         .append("text")
         .attr(
@@ -142,7 +150,7 @@ export default {
         .data((d) => merged_buydata[d.data].stockTicker.split("/\n/g"))
         .join("tspan")
         .attr("x", 0)
-        .attr("y", (d, i, D) => `${i - D.length / 2 + 0.85}em`)
+        .attr("y", (d, i, D) => `${i - D.length / 2 + 0.85}em`) //centers the text
         .attr("fill-opacity", (d, i, D) => (i === D.length - 1 ? 0.7 : null))
         .text((d) => d);
 

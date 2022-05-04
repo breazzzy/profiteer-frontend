@@ -57,10 +57,10 @@ export default {
     return { pageLoadedAllready: false };
   },
   async mounted() {
-
     this.drawChart();
   },
   setup() {},
+  //Watch variables call function when the change
   watch: {
     selectedMonth() {
       this.drawChart();
@@ -118,6 +118,8 @@ export default {
         "December",
       ];
       // Scale for x Axis
+      //This is a function that we can pass x values in to map it in our SVG
+      //D3 allows us to create scales that use dates/time instead of just numbers
       const X = d3
         .scaleTime()
         .domain([
@@ -126,35 +128,39 @@ export default {
         ])
         .range([10, width - MARGINS.right]);
       // Scale for y Axis
+      //This is a function that we can pass y values in to map it in our SVG
       const Y = d3
         .scaleLinear()
         .domain([0, d3.max(stockData, (d) => d.close)])
         .range([height - MARGINS.bottom, 10]);
       //Line
+      //Like X and Y this returns a function we can pass data into
       const line = d3
         .line()
         .x((d) => X(Date.parse(d.date)))
         .y((d) => Y(d.close))
-
-        .curve(d3.curveLinear);
+        .curve(d3.curveLinear); //Type of line, linear is standard line chart.
       //add path attribute to svg in dom
+      //This is our line
       const path = d3
         .select("#idForRef")
         .append("path")
-        .attr("transform", `translate(${MARGINS.left},10)`)
+        .attr("transform", `translate(${MARGINS.left},10)`) //The $ syntax is actually a feature from VUE in this case, its used to have javascript variables in dom and came in useful here.
         .attr("d", line(stockData));
       //Define x and y axis
       const xAxis = d3.axisBottom().scale(X);
       const yAxis = d3.axisLeft().scale(Y);
       const xAxisRef = d3
         .select("#idForRef")
-        .append("g")
+        .append("g") //G is an svg element used to group shapes together in this case its only being used to hold all the elements needed for the axis, lines and text
+        //Grouping the elements like this isnt necessary but seems to be best practice. Also I found it makes debugging the svg's through inspect element easier
         .attr("id", "xAxis")
         .attr("transform", `translate(${MARGINS.left},470)`)
-        .call(xAxis);
+        .call(xAxis); //Call is a function that passes the last selected element into the function. This is the equivlent of xAxis(svg.append(g))
       const everypossibleday = X.ticks(d3.timeDay.every(1));
       //Build rectangular boxes that will highlight weekends
       d3.select("#idForRef")
+        .append("g")
         .selectAll("bars")
         .data(
           everypossibleday.filter(function (value, index, arr) {
@@ -165,13 +171,13 @@ export default {
         .append("rect")
         .attr("transform", "translate(15,10)")
         .attr("x", function (d, i) {
-          return X(Date.parse(d)) + width / everypossibleday.length / 2;
+          return X(Date.parse(d)) + width / everypossibleday.length / 2; //This pushes the bars over a few pixels to make sure its scaled correctly
         })
         .attr("y", function (d) {
           return 0;
         })
         .attr("width", width / everypossibleday.length)
-        .attr("height", 500 - 40)
+        .attr("height", height - MARGINS.bottom)
         .attr("fill", "grey");
       //Add yAxis
       d3.select("#idForRef")
@@ -189,6 +195,7 @@ export default {
       //Add dots to datapoints
       //The mouseover functions are for the tooltip
       d3.select("#idForRef")
+        .append("g")
         .selectAll("dot")
         .data(stockData)
         .enter()
@@ -199,7 +206,7 @@ export default {
           return X(Date.parse(d.date));
         })
         .attr("cy", function (d) {
-          return Y(d.close);
+          return Y(d.close); //Y scale for price at current point
         })
         .on("mouseover", function (event, d) {
           d3.select("#tooltip")
