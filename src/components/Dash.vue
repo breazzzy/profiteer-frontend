@@ -9,6 +9,7 @@ const store = UserStore();
 <template>
   <!-- boostrap -->
   <!-- uses the bootstrap col and row syntax extensivly -->
+  <!-- almost all the class strings are directly from bootstrap -->
   <nav
     class="navbar navbar-light bg-light p-3 position-sticky"
     style="background-color: #e3f2fd"
@@ -81,7 +82,7 @@ const store = UserStore();
   <div class="container-fluid">
     <div class="row">
       <!-- Stock Info -->
-      <div id='viewArea' class="col-md-9 ml-auto col-lg-10">
+      <div id="viewArea" class="col-md-9 ml-auto col-lg-10">
         <h1 class="h2">
           <Sidebar
             :searchQuery="searchQuery"
@@ -135,7 +136,7 @@ export default {
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand{
+.navbar-brand {
   padding-right: 20px;
 }
 
@@ -147,7 +148,7 @@ export default {
   }
 }
 
-#searchBar{
+#searchBar {
   padding-left: 40px;
 }
 </style>
