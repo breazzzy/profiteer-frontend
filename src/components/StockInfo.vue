@@ -52,6 +52,11 @@ export default {
     //Adds current views stock to buys for current user
     async addToBuy() {
       try {
+        if(this.amountToBuy < 0){
+          alert("Amount bought must be positive");
+          this.amountToBuy = 0;
+          return
+        }
         const store = UserStore();
         const res = await BuySellService.addToBuy({
           stockTicker: this.SYMBOL,
@@ -155,9 +160,10 @@ export default {
         <template #content>
           <div class="d-flex justify-content-center">
             <input
-              type="username"
+              type="number"
               class="form-control"
               v-model="amountToBuy"
+              min="0"
               id="usernameinput"
               placeholder="Amount in Shares"
             />
