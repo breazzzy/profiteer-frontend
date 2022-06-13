@@ -5,8 +5,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 5050",
-    "start": "vue-cli-service serve",
-    "deploy": "sh deploy.sh"
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
     "axios": "^0.26.0",

@@ -4,7 +4,9 @@ import { UserStore } from "@/stores/UserStore";
 export default () => {
   const store = UserStore();
   return axios.create({
-    baseURL: "https://profiteer-backend.herokuapp.com/",
+    //URL for database
+    baseURL: "http://localhost:5000",
+
     //This header is sent with every single api call, essentially everytime we communicate
     // with the backend these headers are added to whatever the communication is.
     //Authorization: Bearer is the default header spot for the passport api.
