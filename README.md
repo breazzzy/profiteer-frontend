@@ -1,14 +1,6 @@
 # profiteer
 
-<!-- This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/). -->
+![Alt Text](https://github.com/breazzzy/profiteer-frontend/blob/4e82fd6c3f96f2682866f2ef17bc3b68c097e5a4/git_show/animation.gif)
 
 ## About
 
