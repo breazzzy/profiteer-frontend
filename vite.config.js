@@ -14,5 +14,6 @@ export default defineConfig({
 });
 
 module.exports = {
-  publicPath: "/profiteer-frontend/",
+  publicPath:
+    process.env.NODE_ENV === "production" ? "/profiteer-frontend/" : "/",
 };
