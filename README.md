@@ -15,6 +15,8 @@ Backend -> *https://github.com/breazzzy/profiteer-backend*
 
 ![Alt Text](https://github.com/breazzzy/profiteer-frontend/blob/0254558d40c8b61933b6d8536b97fc31266cb31a/git_show/buy_animation.gif)
 
+![Alt Text](https://github.com/breazzzy/profiteer-frontend/blob/6d58f7555368e80a45f6974da7c26a22f5ee1349/git_show/gen_animation.gif)
+
 ## Packages used
 
 - Vue.js - Framework.
