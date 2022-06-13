@@ -7,11 +7,11 @@ Backend -> *https://github.com/breazzzy/profiteer-backend*
 
 ## Media
 
-# Search
+### Search
 
 ![Alt Text](https://github.com/breazzzy/profiteer-frontend/blob/4e82fd6c3f96f2682866f2ef17bc3b68c097e5a4/git_show/animation.gif)
 
-# Buy
+### Buy
 
 ![Alt Text](https://github.com/breazzzy/profiteer-frontend/blob/0254558d40c8b61933b6d8536b97fc31266cb31a/git_show/buy_animation.gif)
 
