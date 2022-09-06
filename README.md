@@ -2,7 +2,7 @@
 
 ## About
 
-Simple website made to view stock information, made as a school project.
+Simple website made to view stock information, created with Vue.
 Backend -> *https://github.com/breazzzy/profiteer-backend*
 
 ## Media
