@@ -1,4 +1,4 @@
-# profiteer
+# Profiteer
 
 ## About
 
